@@ -1,0 +1,16 @@
+meta {
+  name: Get suggesteds based on location
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://localhost:7161/api/adoption-alerts/suggested?latitude=-19.8583191&longitude=-43.9199056
+  body: none
+  auth: none
+}
+
+params:query {
+  latitude: -19.8583191
+  longitude: -43.9199056
+}

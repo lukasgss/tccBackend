@@ -1,0 +1,15 @@
+meta {
+  name: Delete message
+  type: http
+  seq: 5
+}
+
+delete {
+  url: https://localhost:7161/api/user-messages/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiNzZiYjdiMi1lYTY2LTQ3ZTEtYTdlYS00MDg4NTQ5MTAwZTEiLCJzdWIiOiJjNjRjMjUwNi0zYzkyLTQzMjMtOGJmMy0yZTM4OTgwY2IzMzUiLCJuYW1lIjoiVGVzdCB1c2VyIiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImV4cCI6MTcyNjQ0MjczNywiaXNzIjoicGV0RmluZGVyIiwiYXVkIjoicGV0RmluZGVyIn0.sCk1BAsyTqbVa6BmT9eSEpvEIagCsU9-sOTdWDi4GDo
+}

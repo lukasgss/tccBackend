@@ -1,0 +1,31 @@
+meta {
+  name: Update user
+  type: http
+  seq: 9
+}
+
+put {
+  url: https://localhost:7161/api/users/42608f04-44a5-4aab-8254-75e633fc2e2e
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3M2JkNGMxZi0zZmFkLTQxMDQtYjMzNC01MjIwZTk2ZWJkOGIiLCJzdWIiOiI0MjYwOGYwNC00NGE1LTRhYWItODI1NC03NWU2MzNmYzJlMmUiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwNjI2NTExLCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.-QjV57TSWBSvwCr_owOnCp5PxIIMwRFBSZWptKXRz-4
+}
+
+body:json {
+  {
+    "currentPassword": "123456",
+    "newPassword": "123456",
+    "confirmNewPassword": "123456"
+  }
+}
+
+body:multipart-form {
+  fullName: Lucas Silva
+  phoneNumber: 31987654321
+  image: @file(/home/lucas/Pictures/shrek.jpg)
+  onlyWhatsAppMessages: false
+  defaultAdoptionForm: @file(/home/lucas/Downloads/1d3e807c-fb56-4881-87d5-673a2ad92612.xlsx)
+}

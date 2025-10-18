@@ -1,0 +1,22 @@
+meta {
+  name: Get notifications amount
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://localhost:7161/api/user-messages/notifications
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3YzFkZmE4Zi0wN2E1LTQwN2YtOGZiNi1mYWRlYjk2Mzg3MzAiLCJzdWIiOiJhZTczNzU0NC0xMmFiLTQ3NDAtYWQ5MS0zNDE4ZTczYTAzNGEiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2NDQ2MTI1LCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.Tb40bZBIDVUUUjZSSjFqZwTEPCr5mRI91Vovbq61Jds
+}
+
+body:json {
+  {
+    "email": "lucassilva@gmail.com",
+    "password": "123456"
+  }
+}

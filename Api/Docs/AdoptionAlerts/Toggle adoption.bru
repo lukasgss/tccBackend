@@ -1,0 +1,35 @@
+meta {
+  name: Toggle adoption
+  type: http
+  seq: 8
+}
+
+post {
+  url: https://localhost:7161/api/adoption-alerts/adopt/6271fecf-d0aa-40c6-bd5f-262f35b623f6
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2YzRkMWU0ZS0zY2EzLTQxZjctYTIxNy04ZDE4ZTA4MTI3ZTIiLCJzdWIiOiJhZTczNzU0NC0xMmFiLTQ3NDAtYWQ5MS0zNDE4ZTczYTAzNGEiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2Mjk1MzkwLCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.RQucVVIITTx5MEfB-HBnXohAvXajS9xnwo8efV-flZM
+}
+
+body:json {
+  {
+    
+  }
+}
+
+body:multipart-form {
+  pet.name: Test alert123456
+  pet.gender: 1
+  pet.age: 3
+  pet.breedId: 8
+  pet.speciesId: 1
+  pet.size: 3
+  pet.colorIds: 4
+  address: Rua Walter iannikkkkkkkk
+  state: 11
+  city: 1411
+  pet.images: @file(/home/lucas/Pictures/gt3rs.jpg)
+}

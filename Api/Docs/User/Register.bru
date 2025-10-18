@@ -1,0 +1,21 @@
+meta {
+  name: Register
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://localhost:7161/api/users/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "fullName": "Test user",
+    "phoneNumber": "31987654321",
+    "email": "test1234@user.com",
+    "password": "123456",
+    "confirmPassword": "123456"
+  }
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Confirm email
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://localhost:7161/api/users/confirm-email
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "hashedUserId": "RHVzrqsSQEetkTQY5zoDSg",
+    "token": "CfDJ8O7+DEmROTxOpgy8GxQtVupdHjOVoDZFLRFXEooEPM4l9m4OcEs2CztvtAjfPOMSwg3zXWizzTh4tg7x0GOd73+G3NuH6UPixrmGh1DX8/IPZ/qVit0asIX704i42Y+TF56/HpOUK2g0NqgDDwEe+3oDGj/nARZpGaW+tBB8t9T3cEkhlmwyMlBPsg9SMQqs6mYF8bBtf/9I/5T3Un0XrAty4czgsoRRLHLesFMUsl6TsmC3Iq3SzshqhzYDBJJZLg=="
+  }
+}

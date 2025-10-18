@@ -1,0 +1,42 @@
+meta {
+  name: Edit adoption alert
+  type: http
+  seq: 7
+}
+
+put {
+  url: https://localhost:7161/api/adoption-alerts/733066f5-cc38-4f64-9aad-312b2fde8b0f
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZjRhNjM0OC0wMGVlLTQ2OGYtOTJjOC1lZDNhZjRhN2IxMWUiLCJzdWIiOiI0MjYwOGYwNC00NGE1LTRhYWItODI1NC03NWU2MzNmYzJlMmUiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwNjY5NDA3LCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.gAnpVB2XI7GjFWd6k2kxCJsFWqB84ysFZST5G9CGJFk
+}
+
+body:json {
+  {
+    
+  }
+}
+
+body:multipart-form {
+  pet.name: Test alert12345678
+  pet.gender: 1
+  pet.age: 3
+  pet.breedId: 8
+  pet.speciesId: 1
+  pet.size: 3
+  pet.colorIds: 4
+  neighborhood: Cândida Ferreira
+  state: 11
+  city: 1551
+  pet.images: @file(/home/lucas/Pictures/gt3rs.jpg)
+  address: Alameda dos engenheiros
+  pet.existingImages: https://pub-379c3123364d43c7bd0948d90e935c22.r2.dev/Images/Pets/a307f955-7c42-48a7-b211-f09ab224cbe1.webp
+  pet.isVaccinated: true
+  pet.isCastrated: true
+  pet.isNegativeToFivFelv: true
+  pet.colorIds: 1
+  shouldUseDefaultAdoptionForm: false
+}

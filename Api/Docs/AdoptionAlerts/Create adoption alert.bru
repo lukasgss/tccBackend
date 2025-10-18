@@ -1,0 +1,41 @@
+meta {
+  name: Create adoption alert
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost:7161/api/adoption-alerts/
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZjRhNjM0OC0wMGVlLTQ2OGYtOTJjOC1lZDNhZjRhN2IxMWUiLCJzdWIiOiI0MjYwOGYwNC00NGE1LTRhYWItODI1NC03NWU2MzNmYzJlMmUiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwNjY5NDA3LCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.gAnpVB2XI7GjFWd6k2kxCJsFWqB84ysFZST5G9CGJFk
+}
+
+body:json {
+  {
+    
+  }
+}
+
+body:multipart-form {
+  pet.name: Test alert after
+  pet.gender: 1
+  pet.age: 1
+  pet.breedId: 20
+  pet.speciesId: 1
+  pet.size: 2
+  pet.colorIds: 4
+  neighborhood: Cândida Ferreira
+  state: 11
+  city: 1551
+  pet.images: @file(/home/lucas/Pictures/shrek.jpg)
+  pet.isVaccinated: true
+  pet.isCastrated: false
+  pet.isNegativeToFivFelv: true
+  pet.colorIds: 1
+  adoptionForm: @file(/home/lucas/Downloads/b5b94b2d-3bc9-4218-8e56-7b5c7560f8fe.xlsx)
+  shouldUseDefaultAdoptionForm: true
+}

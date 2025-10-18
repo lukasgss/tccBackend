@@ -1,0 +1,21 @@
+meta {
+  name: Validate inserted location
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://localhost:7161/api/geo-location/alerts/location-validation?address=Rua Odilardo Silva&stateId=4&cityId=193
+  body: none
+  auth: bearer
+}
+
+params:query {
+  address: Rua Odilardo Silva
+  stateId: 4
+  cityId: 193
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2YzRkMWU0ZS0zY2EzLTQxZjctYTIxNy04ZDE4ZTA4MTI3ZTIiLCJzdWIiOiJhZTczNzU0NC0xMmFiLTQ3NDAtYWQ5MS0zNDE4ZTczYTAzNGEiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2Mjk1MzkwLCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.RQucVVIITTx5MEfB-HBnXohAvXajS9xnwo8efV-flZM
+}

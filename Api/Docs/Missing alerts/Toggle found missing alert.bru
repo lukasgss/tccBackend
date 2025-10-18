@@ -1,0 +1,31 @@
+meta {
+  name: Toggle found missing alert
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://localhost:7161/api/missing-alerts/find/ade0e497-630c-4c41-895a-aa5e7a0fa91b
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNjg2ZTc5YS0yMTdkLTQxNGEtYmQyZS0xMmI4ZTY5YTU3YzEiLCJzdWIiOiJhZTczNzU0NC0xMmFiLTQ3NDAtYWQ5MS0zNDE4ZTczYTAzNGEiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2NjE3MDY4LCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.PpFpzil7EGMfPopMyoTg38-lEj6EPh-nNdRJtVZR-gA
+}
+
+body:json {
+  {
+    "petId": "e3ffac5a-919e-4450-aaf4-c73c975cd1b4",
+    "lastSeenLocationLatitude": -19.853855690898065,
+    "lastSeenLocationLongitude": -44.03505296434193,
+    "description": "description"
+  }
+}
+
+body:multipart-form {
+  pet.id: e3ffac5a-919e-4450-aaf4-c73c975cd1b4
+  lastSeenLocationLatitude: -19.85459234202904
+  lastSeenLocationLongitude: -44.02973146211324
+  description: description
+}

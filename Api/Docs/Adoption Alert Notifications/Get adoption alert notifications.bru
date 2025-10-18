@@ -1,0 +1,15 @@
+meta {
+  name: Get adoption alert notifications
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://localhost:7161/api/adoption-notifications
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhZDI3M2U5MS04MzU2LTQ3NmQtOWM1Mi05ZDYzMTcyOTJlMmIiLCJzdWIiOiI0MjYwOGYwNC00NGE1LTRhYWItODI1NC03NWU2MzNmYzJlMmUiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwNDQ4Mzc0LCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.fyEbKcfi0Dm646lZ8dEGzJ3QG7GoV3ISDtI_soMYLS0
+}

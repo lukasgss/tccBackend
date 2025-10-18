@@ -1,0 +1,20 @@
+meta {
+  name: Get address from coordinates
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://localhost:7161/api/geo-location/address/coordinates?latitude=0.0338749&longitude=-51.0583012
+  body: none
+  auth: bearer
+}
+
+params:query {
+  latitude: 0.0338749
+  longitude: -51.0583012
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2YzRkMWU0ZS0zY2EzLTQxZjctYTIxNy04ZDE4ZTA4MTI3ZTIiLCJzdWIiOiJhZTczNzU0NC0xMmFiLTQ3NDAtYWQ5MS0zNDE4ZTczYTAzNGEiLCJuYW1lIjoiTHVjYXMgU2lsdmEiLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2Mjk1MzkwLCJpc3MiOiJwZXRGaW5kZXIiLCJhdWQiOiJwZXRGaW5kZXIifQ.RQucVVIITTx5MEfB-HBnXohAvXajS9xnwo8efV-flZM
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Get user by id
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://localhost:7161/api/users/42608f04-44a5-4aab-8254-75e633fc2e2e
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "lucassilva@gmail.com",
+    "password": "123456"
+  }
+}
