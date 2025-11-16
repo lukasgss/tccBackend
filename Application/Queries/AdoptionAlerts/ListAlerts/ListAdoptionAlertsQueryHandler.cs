@@ -3,7 +3,6 @@ using Application.Common.Converters;
 using Application.Common.Exceptions;
 using Application.Common.Extensions;
 using Application.Common.Extensions.Mapping;
-using Application.Common.Interfaces.Entities.Alerts;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
 using Application.Common.Interfaces.Entities.Paginated;
 using Application.Common.Interfaces.Persistence;
@@ -90,7 +89,7 @@ public class ListAdoptionAlertsQueryHandler
             var filteredDistanceInMeters = UnitsConverter.ConvertKmToMeters(filters.RadiusDistanceInKm!.Value);
 
             query = query.Where(alert => alert.Location != null &&
-                EF.Functions.IsWithinDistance(alert.Location, filtersLocation, filteredDistanceInMeters, true));
+                                         EF.Functions.IsWithinDistance(alert.Location, filtersLocation, filteredDistanceInMeters, true));
         }
 
         if (filters.City is not null)

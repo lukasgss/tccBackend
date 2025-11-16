@@ -5,31 +5,43 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class LocalizationMappings
 {
-    private static DropdownDataResponse<string> ToDropdownResponse(this State state)
+    extension(State state)
     {
-        return new DropdownDataResponse<string>()
+        private DropdownDataResponse<string> ToDropdownResponse()
         {
-            Label = state.Name,
-            Value = state.Id.ToString()
-        };
+            return new DropdownDataResponse<string>
+            {
+                Label = state.Name,
+                Value = state.Id.ToString()
+            };
+        }
     }
-    
-    public static List<DropdownDataResponse<string>> ToListOfDropdownResponse(this IEnumerable<State> states)
+
+    extension(IEnumerable<State> states)
     {
-        return states.Select(state => state.ToDropdownResponse()).ToList();
-    }
-    
-    private static DropdownDataResponse<string> ToDropdownResponse(this City city)
-    {
-        return new DropdownDataResponse<string>()
+        public List<DropdownDataResponse<string>> ToListOfDropdownResponse()
         {
-            Label = city.Name,
-            Value = city.Id.ToString()
-        };
+            return states.Select(state => state.ToDropdownResponse()).ToList();
+        }
     }
-    
-    public static List<DropdownDataResponse<string>> ToListOfDropdownResponse(this IEnumerable<City> city)
+
+    extension(City city)
     {
-        return city.Select(state => state.ToDropdownResponse()).ToList();
+        private DropdownDataResponse<string> ToDropdownResponse()
+        {
+            return new DropdownDataResponse<string>
+            {
+                Label = city.Name,
+                Value = city.Id.ToString()
+            };
+        }
+    }
+
+    extension(IEnumerable<City> cities)
+    {
+        public List<DropdownDataResponse<string>> ToListOfDropdownResponse()
+        {
+            return cities.Select(state => state.ToDropdownResponse()).ToList();
+        }
     }
 }

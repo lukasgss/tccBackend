@@ -5,19 +5,22 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class GenderMappings
 {
-    public static GenderResponse ToGenderResponse(this Gender gender)
+    extension(Gender gender)
     {
-        return new GenderResponse(gender, Enum.GetName(typeof(Gender), gender)!);
+        public GenderResponse ToGenderResponse()
+        {
+            return new GenderResponse(gender, Enum.GetName(typeof(Gender), gender)!);
+        }
     }
 
-    public static List<GenderResponse> ToListOfGenderResponse(this ICollection<Gender>? genders)
+    extension(ICollection<Gender>? genders)
     {
-        if (genders is null)
+        public List<GenderResponse> ToListOfGenderResponse()
         {
-            return [];
-        }
+            if (genders is null) return [];
 
-        return genders.Select(gender => new GenderResponse(gender, Enum.GetName(typeof(Gender), gender)!))
-            .ToList();
+            return genders.Select(gender => new GenderResponse(gender, Enum.GetName(typeof(Gender), gender)!))
+                .ToList();
+        }
     }
 }

@@ -15,6 +15,7 @@ using Application.Common.Interfaces.Entities.UserMessages;
 using Application.Common.Interfaces.Entities.Users;
 using Application.Common.Interfaces.ExternalServices.AWS;
 using Application.Common.Interfaces.ExternalServices.GeoLocation;
+using Application.Common.Interfaces.ExternalServices.MessagePublisher;
 using Application.Common.Interfaces.Localization;
 using Application.Common.Interfaces.Messaging;
 using Application.Common.Interfaces.Persistence;
@@ -25,6 +26,7 @@ using Infrastructure.ExternalServices.Auth;
 using Infrastructure.ExternalServices.AWS;
 using Infrastructure.ExternalServices.Configs;
 using Infrastructure.ExternalServices.GeoLocation;
+using Infrastructure.ExternalServices.RabbitMQ;
 using Infrastructure.Messaging;
 using Infrastructure.Persistence.DataAccessObjects;
 using Infrastructure.Persistence.DataContext;
@@ -55,6 +57,7 @@ public static class DependencyInjection
         services.AddScoped<IMessagingService, MessagingService>();
         services.AddScoped<IFoundAnimalAlertRepository, FoundAnimalAlertRepository>();
         services.AddScoped<IFoundAnimalUserPreferencesRepository, FoundAnimalUserPreferencesRepository>();
+        services.AddScoped<IMessagePublisherClient, MessagePublisherClient>();
         services.AddScoped<IAdoptionUserPreferencesRepository, AdoptionUserPreferencesRepository>();
         services.AddScoped<IExternalAuthHandler, ExternalAuthHandler>();
         services.AddScoped<IAdoptionFavoritesRepository, AdoptionFavoritesRepository>();
@@ -71,6 +74,9 @@ public static class DependencyInjection
         services.ConfigureAws(configuration);
 
         services.AddScoped<ISharingPosterGenerator, SharingPosterGenerator>();
+
+        services.AddSingleton<IMessagingConnectionEstablisher, MessagingConnectionEstablisher>();
+        services.Configure<RabbitMqData>(configuration.GetSection("RabbitMQ"));
 
         services.AddScoped<PublishDomainEventsInterceptor>();
         services.AddScoped<IAppDbContext, AppDbContext>();

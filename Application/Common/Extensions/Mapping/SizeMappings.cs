@@ -5,19 +5,22 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class SizeMappings
 {
-    public static SizeResponse ToSizeResponse(this Size size)
+    extension(Size size)
     {
-        return new SizeResponse(size, Enum.GetName(typeof(Size), size)!);
+        public SizeResponse ToSizeResponse()
+        {
+            return new SizeResponse(size, Enum.GetName(typeof(Size), size)!);
+        }
     }
 
-    public static List<SizeResponse> ToListOfSizeResponse(this ICollection<Size>? sizes)
+    extension(ICollection<Size>? sizes)
     {
-        if (sizes is null)
+        public List<SizeResponse> ToListOfSizeResponse()
         {
-            return [];
-        }
+            if (sizes is null) return [];
 
-        return sizes.Select(size => new SizeResponse(size, Enum.GetName(typeof(Size), size)!))
-            .ToList();
+            return sizes.Select(size => new SizeResponse(size, Enum.GetName(typeof(Size), size)!))
+                .ToList();
+        }
     }
 }

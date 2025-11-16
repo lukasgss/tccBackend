@@ -6,45 +6,48 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class SpeciesMappings
 {
-    public static SpeciesResponse ToSpeciesResponse(this Species species)
+    extension(Species species)
     {
-        return new SpeciesResponse(
-            Id: species.Id,
-            Name: species.Name
-        );
-    }
-
-    public static List<SpeciesResponse> ToListOfSpeciesResponse(this ICollection<Species>? species)
-    {
-        if (species is null)
+        public SpeciesResponse ToSpeciesResponse()
         {
-            return [];
+            return new SpeciesResponse(
+                species.Id,
+                species.Name
+            );
         }
 
-        return species.Select(s => new SpeciesResponse(
-                Id: s.Id,
-                Name: s.Name
-            )
-        ).ToList();
-    }
-
-    private static DropdownDataResponse<string> ToDropdownData(this Species species)
-    {
-        return new DropdownDataResponse<string>()
+        private DropdownDataResponse<string> ToDropdownData()
         {
-            Label = species.Name,
-            Value = species.Id.ToString()
-        };
-    }
-
-    public static List<DropdownDataResponse<string>> ToListOfDropdownData(this IEnumerable<Species> species)
-    {
-        List<DropdownDataResponse<string>> dropdownDataSpecies = [];
-        foreach (Species speciesValue in species)
-        {
-            dropdownDataSpecies.Add(speciesValue.ToDropdownData());
+            return new DropdownDataResponse<string>
+            {
+                Label = species.Name,
+                Value = species.Id.ToString()
+            };
         }
+    }
 
-        return dropdownDataSpecies;
+    extension(ICollection<Species>? species)
+    {
+        public List<SpeciesResponse> ToListOfSpeciesResponse()
+        {
+            if (species is null) return [];
+
+            return species.Select(s => new SpeciesResponse(
+                    s.Id,
+                    s.Name
+                )
+            ).ToList();
+        }
+    }
+
+    extension(IEnumerable<Species> species)
+    {
+        public List<DropdownDataResponse<string>> ToListOfDropdownData()
+        {
+            List<DropdownDataResponse<string>> dropdownDataSpecies = [];
+            foreach (Species speciesValue in species) dropdownDataSpecies.Add(speciesValue.ToDropdownData());
+
+            return dropdownDataSpecies;
+        }
     }
 }

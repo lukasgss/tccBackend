@@ -5,11 +5,14 @@ namespace Application.Common.Extensions.Mapping.Alerts;
 
 public static class AdoptionFavoriteMappings
 {
-    public static AdoptionFavoriteResponse ToAdoptionFavoriteResponse(this AdoptionFavorite adoptionFavorite)
+    extension(AdoptionFavorite adoptionFavorite)
     {
-        return new AdoptionFavoriteResponse(
-            Id: adoptionFavorite.Id,
-            AdoptionAlert: adoptionFavorite.AdoptionAlert.ToSimplifiedAdoptionAlertResponse()
-        );
+        public AdoptionFavoriteResponse ToAdoptionFavoriteResponse()
+        {
+            return new AdoptionFavoriteResponse(
+                Id: adoptionFavorite.Id,
+                AdoptionAlert: adoptionFavorite.AdoptionAlert.ToSimplifiedAdoptionAlertResponse()
+            );
+        }
     }
 }

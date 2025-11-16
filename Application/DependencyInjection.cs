@@ -42,6 +42,7 @@ public static class DependencyInjection
         services.AddScoped<IFoundAnimalAlertService, FoundAnimalAlertService>();
         services.AddScoped<IPetImageSubmissionService, PetImageSubmissionService>();
         services.AddScoped<IFoundAlertImageSubmissionService, FoundAlertImageSubmissionService>();
+        services.AddScoped<IAlertsMessagingService, AlertsMessagingService>();
         services.AddScoped<IUserPreferencesValidations, UserPreferencesValidations>();
         services.AddScoped<IAdoptionAlertFileSubmissionService, AdoptionAlertFileSubmissionService>();
 

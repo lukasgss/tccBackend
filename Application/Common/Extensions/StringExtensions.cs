@@ -5,37 +5,40 @@ namespace Application.Common.Extensions;
 
 public static class StringExtensions
 {
-    public static string? ToStrWithoutDiacritics(this string? accentedStr)
+    extension(string? accentedStr)
     {
-        if (accentedStr is null)
+        public string? ToStrWithoutDiacritics()
         {
-            return null;
-        }
-
-        string normalizedString = accentedStr.Normalize(NormalizationForm.FormD);
-        StringBuilder stringBuilder = new(capacity: normalizedString.Length);
-
-        foreach (char character in normalizedString)
-        {
-            UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
-            if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+            if (accentedStr is null)
             {
-                stringBuilder.Append(character);
+                return null;
             }
+
+            string normalizedString = accentedStr.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new(capacity: normalizedString.Length);
+
+            foreach (char character in normalizedString)
+            {
+                UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(character);
+                }
+            }
+
+            return stringBuilder
+                .ToString()
+                .Normalize(NormalizationForm.FormC);
         }
 
-        return stringBuilder
-            .ToString()
-            .Normalize(NormalizationForm.FormC);
-    }
-
-    public static string? CapitalizeFirstLetter(this string? str)
-    {
-        if (str is null)
+        public string? CapitalizeFirstLetter()
         {
-            return null;
-        }
+            if (accentedStr is null)
+            {
+                return null;
+            }
 
-        return str.Length > 1 ? $"{char.ToUpper(str[0])}{str[1..]}" : str.ToUpper();
+            return accentedStr.Length > 1 ? $"{char.ToUpper(accentedStr[0])}{accentedStr[1..]}" : accentedStr.ToUpper();
+        }
     }
 }

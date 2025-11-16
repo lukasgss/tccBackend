@@ -1,6 +1,6 @@
 ﻿using Application.Common.Calculators;
 using Application.Common.Converters;
-using Application.Common.Interfaces.Entities.Alerts;
+using Application.Common.Extensions;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts.DTOs;
 using Application.Common.Pagination;
@@ -51,7 +51,7 @@ public class FoundAnimalAlertRepository : GenericRepository<FoundAnimalAlert>, I
 	private static IQueryable<FoundAnimalAlert> ApplyFilters(IQueryable<FoundAnimalAlert> query,
 		FoundAnimalAlertFilters filters)
 	{
-		if (AlertFilters.HasGeoFilters(filters))
+		if (filters.HasGeoFilters())
 		{
 			Point filtersLocation =
 				CoordinatesCalculator.CreatePointBasedOnCoordinates(filters.Latitude!.Value, filters.Longitude!.Value);

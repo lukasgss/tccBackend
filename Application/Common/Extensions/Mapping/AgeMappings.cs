@@ -5,19 +5,25 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class AgeMappings
 {
-    public static AgeResponse ToAgeResponse(this Age age)
+    extension(Age age)
     {
-        return new AgeResponse(age, Enum.GetName(typeof(Age), age)!);
+        public AgeResponse ToAgeResponse()
+        {
+            return new AgeResponse(age, Enum.GetName(typeof(Age), age)!);
+        }
     }
 
-    public static List<AgeResponse> ToListOfAgeResponse(this ICollection<Age>? ages)
+    extension(ICollection<Age>? ages)
     {
-        if (ages is null)
+        public List<AgeResponse> ToListOfAgeResponse()
         {
-            return [];
-        }
+            if (ages is null)
+            {
+                return [];
+            }
 
-        return ages.Select(age => new AgeResponse(age, Enum.GetName(typeof(Age), age)!))
-            .ToList();
+            return ages.Select(age => new AgeResponse(age, Enum.GetName(typeof(Age), age)!))
+                .ToList();
+        }
     }
 }

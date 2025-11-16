@@ -5,27 +5,33 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class ColorMappings
 {
-    public static ColorResponse ToColorResponse(this Color color)
+    extension(Color color)
     {
-        return new ColorResponse(
-            Id: color.Id,
-            Name: color.Name,
-            HexCode: color.HexCode
-        );
-    }
-
-    public static List<ColorResponse> ToListOfColorResponse(this ICollection<Color>? colors)
-    {
-        if (colors is null)
+        public ColorResponse ToColorResponse()
         {
-            return [];
-        }
-
-        return colors.Select(color => new ColorResponse(
+            return new ColorResponse(
                 Id: color.Id,
                 Name: color.Name,
                 HexCode: color.HexCode
-            )
-        ).ToList();
+            );
+        }
+    }
+
+    extension(ICollection<Color>? colors)
+    {
+        public List<ColorResponse> ToListOfColorResponse()
+        {
+            if (colors is null)
+            {
+                return [];
+            }
+
+            return colors.Select(color => new ColorResponse(
+                    Id: color.Id,
+                    Name: color.Name,
+                    HexCode: color.HexCode
+                )
+            ).ToList();
+        }
     }
 }

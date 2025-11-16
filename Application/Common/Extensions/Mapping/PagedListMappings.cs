@@ -12,79 +12,89 @@ namespace Application.Common.Extensions.Mapping;
 
 public static class PagedListMappings
 {
-    public static PaginatedEntity<UserMessageResponse> ToUserMessageResponsePagedList(
-        this PagedList<UserMessage> pagedUserMessages)
+    extension(PagedList<UserMessage> pagedUserMessages)
     {
-        List<UserMessageResponse> userMessageResponses = pagedUserMessages
-            .Select(message => message.ToUserMessageResponse())
-            .ToList();
-
-        return new PaginatedEntity<UserMessageResponse>()
+        public PaginatedEntity<UserMessageResponse> ToUserMessageResponsePagedList()
         {
-            Data = userMessageResponses,
-            CurrentPage = pagedUserMessages.CurrentPage,
-            CurrentPageCount = pagedUserMessages.CurrentPageCount,
-            TotalPages = pagedUserMessages.TotalPages
-        };
+            List<UserMessageResponse> userMessageResponses = pagedUserMessages
+                .Select(message => message.ToUserMessageResponse())
+                .ToList();
+
+            return new PaginatedEntity<UserMessageResponse>
+            {
+                Data = userMessageResponses,
+                CurrentPage = pagedUserMessages.CurrentPage,
+                CurrentPageCount = pagedUserMessages.CurrentPageCount,
+                TotalPages = pagedUserMessages.TotalPages
+            };
+        }
     }
 
-    public static PaginatedEntity<AdoptionAlertListingResponse> ToAdoptionAlertListingResponsePagedList(
-        this PagedList<AdoptionAlertListing> adoptionAlerts)
+    extension(PagedList<AdoptionAlertListing> adoptionAlerts)
     {
-        List<AdoptionAlertListingResponse> adoptionAlertResponses = adoptionAlerts
-            .Select(alert => alert.ToAdoptionAlertListingResponse())
-            .ToList();
-
-        return new PaginatedEntity<AdoptionAlertListingResponse>()
+        public PaginatedEntity<AdoptionAlertListingResponse> ToAdoptionAlertListingResponsePagedList()
         {
-            Data = adoptionAlertResponses,
-            CurrentPage = adoptionAlerts.CurrentPage,
-            CurrentPageCount = adoptionAlerts.CurrentPageCount,
-            TotalPages = adoptionAlerts.TotalPages
-        };
+            List<AdoptionAlertListingResponse> adoptionAlertResponses = adoptionAlerts
+                .Select(alert => alert.ToAdoptionAlertListingResponse())
+                .ToList();
+
+            return new PaginatedEntity<AdoptionAlertListingResponse>
+            {
+                Data = adoptionAlertResponses,
+                CurrentPage = adoptionAlerts.CurrentPage,
+                CurrentPageCount = adoptionAlerts.CurrentPageCount,
+                TotalPages = adoptionAlerts.TotalPages
+            };
+        }
     }
 
-    public static PaginatedEntity<MissingAlertResponse> ToMissingAlertResponsePagedList(
-        this PagedList<MissingAlertQueryResponse> missingAlerts)
+    extension(PagedList<MissingAlertQueryResponse> missingAlerts)
     {
-        List<MissingAlertResponse> missingAlertResponses = missingAlerts
-            .Select(alert => alert.ToMissingAlertResponseFromQuery())
-            .ToList();
-
-        return new PaginatedEntity<MissingAlertResponse>()
+        public PaginatedEntity<MissingAlertResponse> ToMissingAlertResponsePagedList()
         {
-            Data = missingAlertResponses,
-            CurrentPage = missingAlerts.CurrentPage,
-            CurrentPageCount = missingAlerts.CurrentPageCount,
-            TotalPages = missingAlerts.TotalPages
-        };
+            List<MissingAlertResponse> missingAlertResponses = missingAlerts
+                .Select(alert => alert.ToMissingAlertResponseFromQuery())
+                .ToList();
+
+            return new PaginatedEntity<MissingAlertResponse>
+            {
+                Data = missingAlertResponses,
+                CurrentPage = missingAlerts.CurrentPage,
+                CurrentPageCount = missingAlerts.CurrentPageCount,
+                TotalPages = missingAlerts.TotalPages
+            };
+        }
     }
 
-    public static PaginatedEntity<FoundAnimalAlertResponse> ToFoundAnimalAlertResponsePagedList(
-        this PagedList<FoundAnimalAlert> foundAnimalAlerts)
+    extension(PagedList<FoundAnimalAlert> foundAnimalAlerts)
     {
-        List<FoundAnimalAlertResponse> missingAlertResponses = foundAnimalAlerts
-            .Select(alert => alert.ToFoundAnimalAlertResponse())
-            .ToList();
-
-        return new PaginatedEntity<FoundAnimalAlertResponse>()
+        public PaginatedEntity<FoundAnimalAlertResponse> ToFoundAnimalAlertResponsePagedList()
         {
-            Data = missingAlertResponses,
-            CurrentPage = foundAnimalAlerts.CurrentPage,
-            CurrentPageCount = foundAnimalAlerts.CurrentPageCount,
-            TotalPages = foundAnimalAlerts.TotalPages
-        };
+            List<FoundAnimalAlertResponse> missingAlertResponses = foundAnimalAlerts
+                .Select(alert => alert.ToFoundAnimalAlertResponse())
+                .ToList();
+
+            return new PaginatedEntity<FoundAnimalAlertResponse>
+            {
+                Data = missingAlertResponses,
+                CurrentPage = foundAnimalAlerts.CurrentPage,
+                CurrentPageCount = foundAnimalAlerts.CurrentPageCount,
+                TotalPages = foundAnimalAlerts.TotalPages
+            };
+        }
     }
 
-    public static PaginatedEntity<AdoptionFavoriteResponse> ToAlertFavoritesResponse(
-        this PagedList<AdoptionFavoriteResponse> adoptionFavorites)
+    extension(PagedList<AdoptionFavoriteResponse> adoptionFavorites)
     {
-        return new PaginatedEntity<AdoptionFavoriteResponse>()
+        public PaginatedEntity<AdoptionFavoriteResponse> ToAlertFavoritesResponse()
         {
-            Data = adoptionFavorites,
-            CurrentPage = adoptionFavorites.CurrentPage,
-            CurrentPageCount = adoptionFavorites.CurrentPageCount,
-            TotalPages = adoptionFavorites.TotalPages
-        };
+            return new PaginatedEntity<AdoptionFavoriteResponse>
+            {
+                Data = adoptionFavorites,
+                CurrentPage = adoptionFavorites.CurrentPage,
+                CurrentPageCount = adoptionFavorites.CurrentPageCount,
+                TotalPages = adoptionFavorites.TotalPages
+            };
+        }
     }
 }
