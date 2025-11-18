@@ -1,13 +1,16 @@
-﻿using Application.Common.Calculators;
+﻿using Application.Commands.Alerts.Common;
+using Application.Common.Calculators;
 using Application.Common.Exceptions;
 using Application.Common.Extensions;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Extensions.Mapping.Alerts;
+using Application.Common.GeoLocation;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts.DTOs;
 using Application.Common.Interfaces.Entities.AnimalSpecies;
 using Application.Common.Interfaces.Entities.Breeds;
 using Application.Common.Interfaces.Entities.Colors;
+using Application.Common.Interfaces.Entities.Location;
 using Application.Common.Interfaces.Entities.Paginated;
 using Application.Common.Interfaces.Entities.Users;
 using Application.Common.Interfaces.General.Files;
@@ -32,6 +35,7 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
     private readonly IFoundAlertImageSubmissionService _imageSubmissionService;
     private readonly IAlertsMessagingService _alertsMessagingService;
     private readonly IValueProvider _valueProvider;
+    private readonly LocationUtils _locationUtils;
     private readonly ILogger<FoundAnimalAlertService> _logger;
 
     public FoundAnimalAlertService(
@@ -43,7 +47,8 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
         IFoundAlertImageSubmissionService imageSubmissionService,
         IAlertsMessagingService alertsMessagingService,
         IValueProvider valueProvider,
-        ILogger<FoundAnimalAlertService> logger)
+        ILogger<FoundAnimalAlertService> logger,
+        LocationUtils locationUtils)
     {
         _foundAnimalAlertRepository = foundAnimalAlertRepository ??
                                       throw new ArgumentNullException(nameof(foundAnimalAlertRepository));
@@ -57,9 +62,10 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
             alertsMessagingService ?? throw new ArgumentNullException(nameof(alertsMessagingService));
         _valueProvider = valueProvider ?? throw new ArgumentNullException(nameof(valueProvider));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _locationUtils = locationUtils;
     }
 
-    public async Task<FoundAnimalAlertResponse> GetByIdAsync(Guid alertId)
+    public async Task<FoundAnimalAlertResponseWithGeoLocation> GetByIdAsync(Guid alertId)
     {
         FoundAnimalAlert? foundAnimalAlert = await _foundAnimalAlertRepository.GetByIdAsync(alertId);
         if (foundAnimalAlert is null)
@@ -68,7 +74,13 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
             throw new NotFoundException("Alerta com o id especificado não existe.");
         }
 
-        return foundAnimalAlert.ToFoundAnimalAlertResponse();
+        AlertGeoLocation formattedLocation = new(
+            City: new LocationResponse(foundAnimalAlert.City.Id, foundAnimalAlert.City.Name),
+            Neighborhood: foundAnimalAlert.Neighborhood,
+            State: new LocationResponse(foundAnimalAlert.State.Id, foundAnimalAlert.State.Name)
+        );
+
+        return foundAnimalAlert.ToFoundAnimalAlertResponseWithGeoLocation(formattedLocation);
     }
 
     public async Task<PaginatedEntity<FoundAnimalAlertResponse>> ListFoundAnimalAlerts(
@@ -86,35 +98,38 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
         return filteredAlerts.ToFoundAnimalAlertResponsePagedList();
     }
 
-    public async Task<FoundAnimalAlertResponse> CreateAsync(CreateFoundAnimalAlertRequest createAlertRequest,
+    public async Task<FoundAnimalAlertResponse> CreateAsync(CreateFoundAnimalAlertRequest request,
         Guid userId)
     {
-        Species? species = await _speciesRepository.GetSpeciesByIdAsync(createAlertRequest.SpeciesId);
+        Species? species = await _speciesRepository.GetSpeciesByIdAsync(request.SpeciesId);
         if (species is null)
         {
-            _logger.LogInformation("Espécie {SpeciesId} não existe", createAlertRequest.SpeciesId);
+            _logger.LogInformation("Espécie {SpeciesId} não existe", request.SpeciesId);
             throw new NotFoundException("Espécie com o id especificado não existe.");
         }
 
-        List<Color> colors = await ValidateAndAssignColorsAsync(createAlertRequest.ColorIds);
-        Breed? breed = await ValidateAndQueryBreed(createAlertRequest.BreedId);
+        List<Color> colors = await ValidateAndAssignColorsAsync(request.ColorIds);
+        Breed? breed = await ValidateAndQueryBreed(request.BreedId);
 
         User? userCreating = await _userRepository.GetUserByIdAsync(userId);
 
-        Point location = CoordinatesCalculator.CreatePointBasedOnCoordinates(createAlertRequest.FoundLocationLatitude,
-            createAlertRequest.FoundLocationLongitude);
+        var localizationData = await _locationUtils.GetAlertStateAndCity(request.State, request.City);
+        Point location = await _locationUtils.GetAlertLocation(localizationData, request.Neighborhood);
 
         FoundAnimalAlert alertToBeCreated = new()
         {
             Id = _valueProvider.NewGuid(),
-            Name = createAlertRequest.Name,
-            Description = createAlertRequest.Description,
+            Name = request.Name,
+            Description = request.Description,
             Location = location,
-            Size = createAlertRequest.Size,
+            Neighborhood = request.Neighborhood,
+            State = localizationData.State,
+            City = localizationData.City,
+            Size = request.Size,
             RegistrationDate = _valueProvider.UtcNow(),
             RecoveryDate = null,
-            Gender = createAlertRequest.Gender,
-            Age = createAlertRequest.Age,
+            Gender = request.Gender,
+            Age = request.Age,
             Colors = colors,
             Species = species,
             Breed = breed,
@@ -122,7 +137,7 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
             Images = []
         };
 
-        var uploadedImageUrls = await UploadAlertImages(alertToBeCreated, createAlertRequest.Images);
+        var uploadedImageUrls = await UploadAlertImages(alertToBeCreated, request.Images);
         alertToBeCreated.Images = uploadedImageUrls;
 
         _foundAnimalAlertRepository.Add(alertToBeCreated);

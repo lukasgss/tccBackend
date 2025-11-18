@@ -23,11 +23,14 @@ public class FoundAnimalAlertRepository : GenericRepository<FoundAnimalAlert>, I
 	public async Task<FoundAnimalAlert?> GetByIdAsync(Guid alertId)
 	{
 		return await _dbContext.FoundAnimalAlerts
+			.AsSplitQuery()
 			.Include(alert => alert.Breed)
 			.Include(alert => alert.Species)
 			.Include(alert => alert.Colors)
 			.Include(alert => alert.Images)
 			.Include(alert => alert.User)
+			.Include(alert => alert.City)
+			.Include(alert => alert.State)
 			.FirstOrDefaultAsync(alert => alert.Id == alertId);
 	}
 

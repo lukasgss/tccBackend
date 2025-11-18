@@ -88,7 +88,7 @@ public class GetAdoptionAlertByIdQueryHandler
                     cancellationToken: cancellationToken);
         }
 
-        AlertGeoLocation formattedLocation = new AlertGeoLocation(
+        AlertGeoLocation formattedLocation = new(
             City: new LocationResponse(adoptionAlert.City.Id, adoptionAlert.City.Name),
             Neighborhood: adoptionAlert.Neighborhood,
             State: new LocationResponse(adoptionAlert.State.Id, adoptionAlert.State.Name)

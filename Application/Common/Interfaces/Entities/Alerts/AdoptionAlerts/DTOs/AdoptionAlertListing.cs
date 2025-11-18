@@ -20,7 +20,6 @@ public class AdoptionAlertListing
     public Pet Pet { get; init; } = null!;
 
     public City City { get; init; } = null!;
-
     public User User { get; init; } = null!;
     public bool IsFavorite { get; init; }
 }

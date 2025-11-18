@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Infrastructure.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251113032600_AddFoundAlertFavorites")]
+    partial class AddFoundAlertFavorites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,9 +251,6 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("BreedId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
@@ -266,10 +266,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("Neighborhood")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateOnly?>("RecoveryDate")
                         .HasColumnType("date");
 
@@ -282,9 +278,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("SpeciesId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StateId")
-                        .HasColumnType("integer");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -292,11 +285,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("BreedId");
 
-                    b.HasIndex("CityId");
-
                     b.HasIndex("SpeciesId");
-
-                    b.HasIndex("StateId");
 
                     b.HasIndex("UserId");
 
@@ -2148,21 +2137,9 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("BreedId");
 
-                    b.HasOne("Domain.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Species", "Species")
                         .WithMany()
                         .HasForeignKey("SpeciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.State", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2174,11 +2151,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Breed");
 
-                    b.Navigation("City");
-
                     b.Navigation("Species");
-
-                    b.Navigation("State");
 
                     b.Navigation("User");
                 });

@@ -16,14 +16,6 @@ public class CreateFoundAnimalAlertValidator : AbstractValidator<CreateFoundAnim
 			.MaximumLength(500)
 			.WithMessage("Máximo de 500 caracteres permitidos.");
 
-		RuleFor(alert => alert.FoundLocationLatitude)
-			.NotNull()
-			.WithMessage("Campo de latitude é obrigatório.");
-
-		RuleFor(alert => alert.FoundLocationLongitude)
-			.NotNull()
-			.WithMessage("Campo de longitude é obrigatório.");
-
 		RuleFor(alert => alert.Images)
 			.NotEmpty()
 			.WithMessage("Campo de imagens é obrigatório.");

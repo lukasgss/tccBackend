@@ -77,26 +77,6 @@ public class AdoptionAlertController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("created")]
-    public async Task<IList<AdoptionAlertListingResponse>> GetUserCreatedAlerts()
-    {
-        Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
-
-        GetUserCreatedAlertsQuery query = new(userId);
-        return await _mediator.Send(query);
-    }
-
-    [Authorize]
-    [HttpGet("saved")]
-    public async Task<IList<AdoptionAlertListingResponse>> GetUserSavedAlerts()
-    {
-        Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
-
-        GetUserSavedAlertsQuery query = new(userId);
-        return await _mediator.Send(query);
-    }
-
-    [Authorize]
     [HttpPost]
     public async Task<ActionResult<AdoptionAlertResponse>> Create([FromForm] CreateAdoptionAlertRequest request)
     {

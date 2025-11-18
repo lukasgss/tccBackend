@@ -1,18 +1,19 @@
-using Application.Common.Extensions.Mapping.Alerts;
-using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
+using Application.Common.DTOs;
+using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts.DTOs;
+using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Application.Common.Interfaces.Persistence;
+using Application.Queries.Users.Common;
 using Ardalis.GuardClauses;
-using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.AdoptionAlerts.GetUserSavedAlerts;
 
-public record GetUserSavedAlertsQuery(Guid UserId) : IRequest<IList<AdoptionAlertListingResponse>>;
+public record GetUserSavedAlertsQuery(Guid UserId) : IRequest<SavedAlertsResponse>;
 
-public class
-    GetUserSavedAlertsQueryHandler : IRequestHandler<GetUserSavedAlertsQuery, IList<AdoptionAlertListingResponse>>
+public sealed class GetUserSavedAlertsQueryHandler : IRequestHandler<GetUserSavedAlertsQuery, SavedAlertsResponse>
 {
     private readonly IAppDbContext _dbContext;
 
@@ -21,7 +22,7 @@ public class
         _dbContext = Guard.Against.Null(dbContext);
     }
 
-    public async Task<IList<AdoptionAlertListingResponse>> Handle(GetUserSavedAlertsQuery request,
+    public async Task<SavedAlertsResponse> Handle(GetUserSavedAlertsQuery request,
         CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
@@ -36,32 +37,84 @@ public class
             throw new NotFoundException("Usuário não encontrado.");
         }
 
-        var savedAlerts = await _dbContext.AdoptionFavorites
+        var savedAdoptionAlerts = await _dbContext.AdoptionFavorites
             .AsNoTracking()
             .Where(favorite => favorite.UserId == request.UserId)
-            .Select(favorite => new AdoptionAlertListing()
+            .Select(alert => new SavedAdoptionListingResponse
             {
-                Id = favorite.AdoptionAlert.Id,
-                Location = favorite.AdoptionAlert.Location,
-                Description = favorite.AdoptionAlert.Description,
-                RegistrationDate = favorite.AdoptionAlert.RegistrationDate,
-                AdoptionDate = favorite.AdoptionAlert.AdoptionDate,
-                AdoptionRestrictions = favorite.AdoptionAlert.AdoptionRestrictions,
-                Pet = new Pet()
-                {
-                    Id = favorite.AdoptionAlert.Pet.Id,
-                    Name = favorite.AdoptionAlert.Pet.Name,
-                    Species = favorite.AdoptionAlert.Pet.Species,
-                    Breed = favorite.AdoptionAlert.Pet.Breed,
-                    Images = favorite.AdoptionAlert.Pet.Images,
-                    Age = favorite.AdoptionAlert.Pet.Age,
-                    Size = favorite.AdoptionAlert.Pet.Size
-                },
-                User = favorite.AdoptionAlert.User,
-                IsFavorite = true
+                Id = alert.AdoptionAlert.Id,
+                Description = alert.AdoptionAlert.Description,
+                RegistrationDate = alert.AdoptionAlert.RegistrationDate,
+                AdoptionDate = alert.AdoptionAlert.AdoptionDate,
+                AdoptionRestrictions = alert.AdoptionAlert.AdoptionRestrictions,
+                Pet = new ExtraSimplifiedPetResponse(
+                    Id: alert.Id,
+                    Name: alert.AdoptionAlert.Pet.Name,
+                    Age: new AgeResponse(alert.AdoptionAlert.Pet.Age, alert.AdoptionAlert.Pet.Age.ToString()),
+                    Breed: new BreedResponse(
+                        Id: alert.AdoptionAlert.Pet.Breed.Id,
+                        Name: alert.AdoptionAlert.Pet.Breed.Name
+                    ),
+                    Gender: new GenderResponse(
+                        id: alert.AdoptionAlert.Pet.Gender,
+                        name: alert.AdoptionAlert.Pet.Gender.ToString()
+                    ),
+                    Images: alert.AdoptionAlert.Pet.Images.Select(i => i.ImageUrl).ToList()
+                ),
+                Owner = new UserDataResponse(
+                    Id: alert.User.Id,
+                    Image: alert.User.Image,
+                    FullName: alert.User.FullName,
+                    Email: alert.User.Email ?? string.Empty,
+                    PhoneNumber: alert.User.PhoneNumber,
+                    OnlyWhatsAppMessages: alert.User.ReceivesOnlyWhatsAppMessages,
+                    DefaultAdoptionFormUrl: alert.User.DefaultAdoptionFormUrl
+                ),
+                IsFavorite = alert.AdoptionAlert.AdoptionFavorites.Any(favorite => favorite.UserId == request.UserId)
             })
             .ToListAsync(cancellationToken);
 
-        return savedAlerts.ToAdoptionAlertListingResponse();
+        var savedFoundAlerts = await _dbContext.FoundAnimalFavorites
+            .AsNoTracking()
+            .Where(alert => alert.UserId == request.UserId)
+            .Select(alert => new FoundAnimalAlertResponse(
+                Id: alert.FoundAnimalAlert.Id,
+                Name: alert.FoundAnimalAlert.Name,
+                Description: alert.FoundAnimalAlert.Description,
+                FoundLocationLatitude: alert.FoundAnimalAlert.Location.Y,
+                FoundLocationLongitude: alert.FoundAnimalAlert.Location.X,
+                RegistrationDate: alert.FoundAnimalAlert.RegistrationDate,
+                RecoveryDate: alert.FoundAnimalAlert.RecoveryDate,
+                Pet: new ExtraSimplifiedPetResponse(
+                    Id: alert.Id,
+                    Name: alert.FoundAnimalAlert.Name ?? string.Empty,
+                    Age: new AgeResponse(alert.FoundAnimalAlert.Age, alert.FoundAnimalAlert.Age.ToString()),
+                    Breed: new BreedResponse(
+                        Id: alert.FoundAnimalAlert.Breed != null ? alert.FoundAnimalAlert.Breed.Id : 0,
+                        Name: alert.FoundAnimalAlert.Breed != null ? alert.FoundAnimalAlert.Breed.Name : "Desconhecido"
+                    ),
+                    Gender: new GenderResponse(
+                        id: alert.FoundAnimalAlert.Gender != null
+                            ? alert.FoundAnimalAlert.Gender.Value
+                            : Gender.Desconhecido,
+                        name: alert.FoundAnimalAlert.Gender != null
+                            ? alert.FoundAnimalAlert.Gender.Value.ToString()
+                            : "Desconhecido"
+                    ),
+                    Images: alert.FoundAnimalAlert.Images.Select(i => i.ImageUrl).ToList()
+                ),
+                Owner: new UserDataResponse(
+                    Id: alert.User.Id,
+                    Image: alert.User.Image,
+                    FullName: alert.User.FullName,
+                    Email: alert.User.Email ?? string.Empty,
+                    PhoneNumber: alert.User.PhoneNumber,
+                    OnlyWhatsAppMessages: alert.User.ReceivesOnlyWhatsAppMessages,
+                    DefaultAdoptionFormUrl: alert.User.DefaultAdoptionFormUrl
+                )
+            ))
+            .ToListAsync(cancellationToken);
+
+        return new SavedAlertsResponse(AdoptionAlerts: savedAdoptionAlerts, FoundAnimalAlerts: savedFoundAlerts);
     }
 }

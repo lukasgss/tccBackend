@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
@@ -7,6 +8,7 @@ public static class StringExtensions
 {
     extension(string? accentedStr)
     {
+        [return: NotNullIfNotNull(nameof(accentedStr))]
         public string? ToStrWithoutDiacritics()
         {
             if (accentedStr is null)
@@ -31,6 +33,7 @@ public static class StringExtensions
                 .Normalize(NormalizationForm.FormC);
         }
 
+        [return: NotNullIfNotNull(nameof(accentedStr))]
         public string? CapitalizeFirstLetter()
         {
             if (accentedStr is null)

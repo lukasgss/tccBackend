@@ -1,5 +1,5 @@
+using Application.Commands.Alerts.Common;
 using Application.Commands.Pets.UploadImages;
-using Application.Common.Calculators;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Extensions;
@@ -14,7 +14,6 @@ using Application.Common.Interfaces.General.Files;
 using Application.Common.Interfaces.General.Location;
 using Application.Common.Interfaces.Localization;
 using Application.Common.Interfaces.Providers;
-using Application.Queries.GeoLocation.GetCoordinatesFromStateAndCity;
 using Ardalis.GuardClauses;
 using Domain.Common;
 using Domain.Entities;
@@ -44,7 +43,6 @@ public record CreateAdoptionAlertCommand(
 public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionAlertCommand, AdoptionAlertResponse>
 {
     private readonly IUserRepository _userRepository;
-    private readonly ILocalizationRepository _localizationRepository;
     private readonly IBreedRepository _breedRepository;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IColorRepository _colorRepository;
@@ -52,6 +50,7 @@ public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionA
     private readonly IValueProvider _valueProvider;
     private readonly IAdoptionAlertRepository _adoptionAlertRepository;
     private readonly IAdoptionAlertFileSubmissionService _adoptionAlertFileSubmissionService;
+    private readonly ILocationUtils _locationUtils;
     private readonly ILogger<CreateAdoptionAlertCommandHandler> _logger;
 
     public CreateAdoptionAlertCommandHandler(
@@ -64,11 +63,12 @@ public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionA
         IBreedRepository breedRepository,
         ISpeciesRepository speciesRepository,
         IColorRepository colorRepository,
-        IAdoptionAlertFileSubmissionService adoptionAlertFileSubmissionService)
+        IAdoptionAlertFileSubmissionService adoptionAlertFileSubmissionService,
+        ILocationUtils locationUtils)
     {
+        _locationUtils = locationUtils;
         _adoptionAlertFileSubmissionService = Guard.Against.Null(adoptionAlertFileSubmissionService);
         _userRepository = Guard.Against.Null(userRepository);
-        _localizationRepository = Guard.Against.Null(localizationRepository);
         _breedRepository = Guard.Against.Null(breedRepository);
         _speciesRepository = Guard.Against.Null(speciesRepository);
         _colorRepository = Guard.Against.Null(colorRepository);
@@ -83,11 +83,11 @@ public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionA
     {
         var alertOwner = await ValidateAndAssignUserAsync(request.UserId);
 
-        var localizationData = await GetAlertStateAndCity(request.State, request.City);
+        AlertLocalization localizationData = await _locationUtils.GetAlertStateAndCity(request.State, request.City);
         Point? location = null;
         if (!request.ForceCreationWithNotFoundCoordinates)
         {
-            location = await GetAlertLocation(localizationData, request.Neighborhood);
+            location = await _locationUtils.GetAlertLocation(localizationData, request.Neighborhood);
         }
 
         Pet petToBeCreated = await GeneratePetToBeCreatedAsync(request.Pet, alertOwner);
@@ -157,61 +157,7 @@ public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionA
 
         adoptionAlert.AddDomainEvent(adoptionAlertCreatedEvent);
     }
-
-    private async Task<Point> GetAlertLocation(AlertLocalization localizationData, string neighborhood)
-    {
-        GetCoordinatesFromStateAndCityQuery query = new(
-            neighborhood,
-            localizationData.State.Name,
-            localizationData.City.Name);
-        var addressData = await _mediator.Send(query);
-
-        if (addressData is null)
-        {
-            throw new NotFoundException("Não foi possível encontrar coordenadas do bairro especificado.");
-        }
-
-        return CoordinatesCalculator.CreatePointBasedOnCoordinates(
-            double.Parse(addressData.Latitude),
-            double.Parse(addressData.Longitude));
-    }
-
-    private async Task<AlertLocalization> GetAlertStateAndCity(int stateId, int cityId)
-    {
-        State state = await GetState(stateId);
-        City city = await GetCity(cityId);
-
-        return new AlertLocalization()
-        {
-            State = state,
-            City = city
-        };
-    }
-
-    private async Task<State> GetState(int stateId)
-    {
-        var state = await _localizationRepository.GetStateById(stateId);
-        if (state is null)
-        {
-            _logger.LogInformation("Estado de id {EstadoId} não foi encontrado.", stateId);
-            throw new NotFoundException("Estado especificado não foi encontrado.");
-        }
-
-        return state;
-    }
-
-    private async Task<City> GetCity(int cityId)
-    {
-        var city = await _localizationRepository.GetCityById(cityId);
-        if (city is null)
-        {
-            _logger.LogInformation("Cidade de id {CidadeId} não foi encontrada.", cityId);
-            throw new NotFoundException("Cidade especificada não foi encontrada.");
-        }
-
-        return city;
-    }
-
+    
     private async Task<User> ValidateAndAssignUserAsync(Guid userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
@@ -301,7 +247,7 @@ public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionA
     private static List<string> FormatAdoptionRestrictions(List<string> restrictions)
     {
         return restrictions.Select(restriction => restriction.Trim()
-                .CapitalizeFirstLetter()!)
+                .CapitalizeFirstLetter())
             .ToList();
     }
 }

@@ -6,6 +6,7 @@ using Application.Common.Interfaces.Entities.Paginated;
 using Application.Common.Validations.Alerts.FoundAnimalAlertValidations;
 using Application.Common.Validations.Errors;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -28,7 +29,7 @@ public class FoundAnimalAlertController : ControllerBase
     }
 
     [HttpGet("{alertId:guid}", Name = "GetFoundAlertById")]
-    public async Task<FoundAnimalAlertResponse> GetFoundAlertById(Guid alertId)
+    public async Task<FoundAnimalAlertResponseWithGeoLocation> GetFoundAlertById(Guid alertId)
     {
         return await _foundAnimalAlertService.GetByIdAsync(alertId);
     }
@@ -62,7 +63,7 @@ public class FoundAnimalAlertController : ControllerBase
         return new CreatedAtRouteResult(nameof(GetFoundAlertById), new { alertId = createdAlert.Id }, createdAlert);
     }
 
-    [HttpPut("{alertId:guid}")]
+    [Authorize, HttpPut("{alertId:guid}")]
     public async Task<FoundAnimalAlertResponse> Edit(
         [FromForm] EditFoundAnimalAlertRequest editRequest, Guid alertId)
     {
@@ -71,7 +72,7 @@ public class FoundAnimalAlertController : ControllerBase
         return await _foundAnimalAlertService.EditAsync(editRequest, userId, alertId);
     }
 
-    [HttpPut("rescue/{alertId:guid}")]
+    [Authorize, HttpPut("rescue/{alertId:guid}")]
     public async Task<FoundAnimalAlertResponse> ToggleStatus(Guid alertId)
     {
         Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
@@ -79,7 +80,7 @@ public class FoundAnimalAlertController : ControllerBase
         return await _foundAnimalAlertService.ToggleAlertStatus(alertId, userId);
     }
 
-    [HttpDelete("{alertId:guid}")]
+    [Authorize, HttpDelete("{alertId:guid}")]
     public async Task<ActionResult> Delete(Guid alertId)
     {
         Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);

@@ -24,6 +24,7 @@ public interface IAppDbContext
     public DbSet<FoundAnimalUserPreferences> FoundAnimalUserPreferences { get; set; }
     public DbSet<AdoptionUserPreferences> AdoptionUserPreferences { get; set; }
     public DbSet<AdoptionFavorite> AdoptionFavorites { get; set; }
+    public DbSet<FoundAnimalFavorite> FoundAnimalFavorites { get; set; }
     public DbSet<City> Cities { get; set; }
     public DbSet<State> States { get; set; }
     public DbSet<AdoptionAlertNotification> AdoptionAlertNotifications { get; set; }

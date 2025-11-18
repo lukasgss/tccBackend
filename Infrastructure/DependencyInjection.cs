@@ -10,6 +10,7 @@ using Application.Common.Interfaces.Entities.Alerts.UserPreferences;
 using Application.Common.Interfaces.Entities.AnimalSpecies;
 using Application.Common.Interfaces.Entities.Breeds;
 using Application.Common.Interfaces.Entities.Colors;
+using Application.Common.Interfaces.Entities.FoundAnimalFavoriteAlerts;
 using Application.Common.Interfaces.Entities.Pets;
 using Application.Common.Interfaces.Entities.UserMessages;
 using Application.Common.Interfaces.Entities.Users;
@@ -67,6 +68,7 @@ public static class DependencyInjection
         services.AddScoped<IPetImageRepository, PetImageRepository>();
         services.AddScoped<IAdoptionReportRepository, AdoptionReportRepository>();
         services.AddScoped<IAdoptionAlertNotificationsRepository, AdoptionAlertNotificationsRepository>();
+        services.AddScoped<IFoundAnimalFavoritesRepository, FoundAnimalFavoritesRepository>();
         services.AddScoped<IUserDao, UserDao>();
 
         services.AddScoped<IFileUploadClient, FileUploadClient>();

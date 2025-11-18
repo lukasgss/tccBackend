@@ -38,6 +38,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, I
     public DbSet<FoundAnimalUserPreferences> FoundAnimalUserPreferences { get; set; } = null!;
     public DbSet<AdoptionUserPreferences> AdoptionUserPreferences { get; set; } = null!;
     public DbSet<AdoptionFavorite> AdoptionFavorites { get; set; } = null!;
+    public DbSet<FoundAnimalFavorite> FoundAnimalFavorites { get; set; }
     public DbSet<City> Cities { get; set; } = null!;
     public DbSet<State> States { get; set; } = null!;
     public DbSet<AdoptionReport> AdoptionReports { get; set; } = null!;

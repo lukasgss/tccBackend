@@ -18,7 +18,11 @@ public class FoundAnimalAlert
 	public string? Description { get; set; }
 
 	[Required]
-	public required Point Location { get; set; } = null!;
+	public Point Location { get; set; } = null!;
+
+	public State State { get; set; } = null!;
+	public City City { get; set; } = null!;
+	public string Neighborhood { get; set; } = null!;
 
 	[Required]
 	public required Age Age { get; set; }

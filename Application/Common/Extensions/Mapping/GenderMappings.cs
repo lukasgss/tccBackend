@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Domain.Enums;
 
@@ -10,6 +11,20 @@ public static class GenderMappings
         public GenderResponse ToGenderResponse()
         {
             return new GenderResponse(gender, Enum.GetName(typeof(Gender), gender)!);
+        }
+    }
+
+    extension(Gender? gender)
+    {
+        [return: NotNullIfNotNull(nameof(gender))]
+        public GenderResponse? ToGenderResponse()
+        {
+            if (gender is null)
+            {
+                return null;
+            }
+
+            return new GenderResponse(gender.Value, Enum.GetName(typeof(Gender), gender)!);
         }
     }
 

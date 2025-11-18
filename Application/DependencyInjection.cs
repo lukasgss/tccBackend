@@ -1,4 +1,5 @@
 using System.Reflection;
+using Application.Commands.Alerts.Common;
 using Application.Common.Behaviors;
 using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Authorization;
@@ -45,6 +46,7 @@ public static class DependencyInjection
         services.AddScoped<IAlertsMessagingService, AlertsMessagingService>();
         services.AddScoped<IUserPreferencesValidations, UserPreferencesValidations>();
         services.AddScoped<IAdoptionAlertFileSubmissionService, AdoptionAlertFileSubmissionService>();
+        services.AddScoped<ILocationUtils, LocationUtils>();
 
         services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
 

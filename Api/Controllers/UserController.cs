@@ -9,6 +9,8 @@ using Application.Commands.Users.RefreshToken;
 using Application.Commands.Users.Register;
 using Application.Common.DTOs;
 using Application.Common.Interfaces.Authorization;
+using Application.Queries.AdoptionAlerts.GetUserCreatedAlerts;
+using Application.Queries.AdoptionAlerts.GetUserSavedAlerts;
 using Application.Queries.Users.Common;
 using Application.Queries.Users.GetById;
 using Application.Queries.Users.GetProfile;
@@ -42,6 +44,27 @@ public class UserController : ControllerBase
     public async Task<UserProfileResponse> GetProfile(Guid userId)
     {
         return await _mediator.Send(new GetProfileQuery(userId));
+    }
+
+    [Authorize]
+    [HttpGet("created")]
+    public async Task<CreatedAlertsResponse> GetUserCreatedAlerts()
+    {
+        Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
+
+        GetUserCreatedAlertsQuery query = new(userId);
+        var result = await _mediator.Send(query);
+        return result;
+    }
+
+    [Authorize]
+    [HttpGet("saved")]
+    public async Task<SavedAlertsResponse> GetUserSavedAlerts()
+    {
+        Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
+
+        GetUserSavedAlertsQuery query = new(userId);
+        return await _mediator.Send(query);
     }
 
     [HttpPost("register")]
