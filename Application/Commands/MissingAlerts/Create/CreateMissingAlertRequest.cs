@@ -1,8 +1,11 @@
+using Application.Common.Interfaces.Entities.Pets.DTOs;
+
 namespace Application.Commands.MissingAlerts.Create;
 
 public record CreateMissingAlertRequest(
-    double LastSeenLocationLatitude,
-    double LastSeenLocationLongitude,
+    int City,
+    int State,
+    string Neighborhood,
     string? Description,
-    Guid PetId
+    CreatePetRequest Pet
 );

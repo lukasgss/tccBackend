@@ -35,7 +35,7 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
     private readonly IFoundAlertImageSubmissionService _imageSubmissionService;
     private readonly IAlertsMessagingService _alertsMessagingService;
     private readonly IValueProvider _valueProvider;
-    private readonly LocationUtils _locationUtils;
+    private readonly ILocationUtils _locationUtils;
     private readonly ILogger<FoundAnimalAlertService> _logger;
 
     public FoundAnimalAlertService(
@@ -48,7 +48,7 @@ public class FoundAnimalAlertService : IFoundAnimalAlertService
         IAlertsMessagingService alertsMessagingService,
         IValueProvider valueProvider,
         ILogger<FoundAnimalAlertService> logger,
-        LocationUtils locationUtils)
+        ILocationUtils locationUtils)
     {
         _foundAnimalAlertRepository = foundAnimalAlertRepository ??
                                       throw new ArgumentNullException(nameof(foundAnimalAlertRepository));

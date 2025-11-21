@@ -1,12 +1,14 @@
 using Application.Common.Interfaces.Entities.Pets.DTOs;
+using Domain.Entities;
 
 namespace Application.Common.DTOs;
 
-public record MissingAlertResponse(
+public sealed record MissingAlertResponse(
     Guid Id,
     DateTime RegistrationDate,
-    double LastSeenLocationLatitude,
-    double LastSeenLocationLongitude,
+    City City,
+    State State,
+    string Neighborhood,
     string? Description,
     DateOnly? RecoveryDate,
     PetResponseNoOwner Pet,

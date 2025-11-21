@@ -69,6 +69,7 @@ public static class DependencyInjection
         services.AddScoped<IAdoptionReportRepository, AdoptionReportRepository>();
         services.AddScoped<IAdoptionAlertNotificationsRepository, AdoptionAlertNotificationsRepository>();
         services.AddScoped<IFoundAnimalFavoritesRepository, FoundAnimalFavoritesRepository>();
+        services.AddScoped<IMissingReportRepository, MissingReportRepository>();
         services.AddScoped<IUserDao, UserDao>();
 
         services.AddScoped<IFileUploadClient, FileUploadClient>();

@@ -28,4 +28,5 @@ public interface IAppDbContext
     public DbSet<City> Cities { get; set; }
     public DbSet<State> States { get; set; }
     public DbSet<AdoptionAlertNotification> AdoptionAlertNotifications { get; set; }
+    public DbSet<MissingAnimalReport> MissingReports { get; set; }
 }

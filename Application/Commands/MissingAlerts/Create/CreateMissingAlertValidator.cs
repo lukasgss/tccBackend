@@ -2,29 +2,25 @@ using FluentValidation;
 
 namespace Application.Commands.MissingAlerts.Create;
 
-public class CreateMissingAlertValidator : AbstractValidator<CreateMissingAlertCommand>
+public sealed class CreateMissingAlertValidator : AbstractValidator<CreateMissingAlertCommand>
 {
     public CreateMissingAlertValidator()
     {
-        RuleFor(alert => alert.LastSeenLocationLatitude)
+        RuleFor(alert => alert.City)
             .NotNull()
-            .WithMessage("Campo de latitude é obrigatório.")
-            .Must(latitude => latitude >= -90 && latitude <= 90)
-            .WithMessage("Campo de latitude deve ser entre -90 e 90.");
+            .WithMessage("Campo de cidade é obrigatório.")
+            .Must(city => city > 0)
+            .WithMessage("Campo de cidade inválido");
 
-        RuleFor(alert => alert.LastSeenLocationLongitude)
+        RuleFor(alert => alert.State)
             .NotNull()
-            .WithMessage("Campo de longitude é obrigatório.")
-            .Must(longitude => longitude >= -180 && longitude <= 180)
-            .WithMessage("Campo de latitude deve ser entre -180 e 180.");
+            .WithMessage("Campo de cidade é obrigatório.")
+            .Must(city => city > 0)
+            .WithMessage("Campo de cidade inválido.");
 
         RuleFor(alert => alert.Description)
             .MaximumLength(500)
             .WithMessage("Máximo de 500 caracteres permitidos.");
-
-        RuleFor(alert => alert.PetId)
-            .NotEmpty()
-            .WithMessage("Campo do pet é obrigatório.");
 
         RuleFor(alert => alert.UserId)
             .NotEmpty()

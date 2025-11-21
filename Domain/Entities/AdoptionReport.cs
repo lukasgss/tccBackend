@@ -2,7 +2,7 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class AdoptionReport
+public sealed class AdoptionReport
 {
     public Guid Id { get; set; }
     public string Reason { get; set; } = null!;

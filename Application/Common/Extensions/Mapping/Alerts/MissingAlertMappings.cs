@@ -1,4 +1,6 @@
 using Application.Common.DTOs;
+using Application.Common.GeoLocation;
+using Application.Queries.MissingAlerts.GetById;
 using Application.Queries.MissingAlerts.ListMissingAlerts;
 using Domain.Entities.Alerts;
 
@@ -13,8 +15,9 @@ public static class MissingAlertMappings
             return new MissingAlertResponse(
                 Id: missingAlert.Id,
                 RegistrationDate: missingAlert.RegistrationDate,
-                LastSeenLocationLatitude: missingAlert.Location.Y,
-                LastSeenLocationLongitude: missingAlert.Location.X,
+                State: missingAlert.State,
+                City: missingAlert.City,
+                Neighborhood: missingAlert.Neighborhood,
                 Description: missingAlert.Description,
                 RecoveryDate: missingAlert.RecoveryDate,
                 Pet: missingAlert.Pet.ToPetResponseNoOwner(),
@@ -30,12 +33,31 @@ public static class MissingAlertMappings
             return new MissingAlertResponse(
                 Id: missingAlert.Id,
                 RegistrationDate: missingAlert.RegistrationDate,
-                LastSeenLocationLatitude: missingAlert.Location.Y,
-                LastSeenLocationLongitude: missingAlert.Location.X,
+                State: missingAlert.State,
+                City: missingAlert.City,
+                Neighborhood: missingAlert.Neighborhood,
                 Description: missingAlert.Description,
                 RecoveryDate: missingAlert.RecoveryDate,
                 Pet: missingAlert.Pet,
                 Owner: missingAlert.Owner
+            );
+        }
+    }
+
+    extension(MissingAlertByIdQueryResponse missingAlert)
+    {
+        public MissingAlertResponseWithGeoLocation ToMissingAlertResponseWithGeoLocation(AlertGeoLocation location)
+        {
+            return new MissingAlertResponseWithGeoLocation(
+                Id: missingAlert.Id,
+                RegistrationDate: missingAlert.RegistrationDate,
+                Description: missingAlert.Description,
+                LastSeenLocationLatitude: missingAlert.LastSeenLocationLatitude,
+                LastSeenLocationLongitude: missingAlert.LastSeenLocationLongitude,
+                RecoveryDate: missingAlert.RecoveryDate,
+                Pet: missingAlert.Pet,
+                Owner: missingAlert.Owner,
+                GeoLocation: location
             );
         }
     }

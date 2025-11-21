@@ -1,14 +1,21 @@
-using Application.Common.Calculators;
+using Application.Commands.Alerts.Common;
+using Application.Commands.Pets.UploadImages;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Extensions.Mapping.Alerts;
 using Application.Common.Interfaces.Entities.Alerts.MissingAlerts;
+using Application.Common.Interfaces.Entities.AnimalSpecies;
+using Application.Common.Interfaces.Entities.Breeds;
+using Application.Common.Interfaces.Entities.Colors;
 using Application.Common.Interfaces.Entities.Pets;
+using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Application.Common.Interfaces.Entities.Users;
+using Application.Common.Interfaces.General.Location;
 using Application.Common.Interfaces.Providers;
 using Ardalis.GuardClauses;
 using Domain.Entities;
 using Domain.Entities.Alerts;
+using Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
@@ -16,20 +23,25 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.MissingAlerts.Create;
 
-public record CreateMissingAlertCommand(
-    double LastSeenLocationLatitude,
-    double LastSeenLocationLongitude,
+public sealed record CreateMissingAlertCommand(
+    int State,
+    int City,
+    string Neighborhood,
     string? Description,
-    Guid PetId,
+    CreatePetRequest Pet,
     Guid UserId
 ) : IRequest<MissingAlertResponse>;
 
-public class CreateMissingAlertCommandHandler : IRequestHandler<CreateMissingAlertCommand, MissingAlertResponse>
+public sealed class CreateMissingAlertCommandHandler : IRequestHandler<CreateMissingAlertCommand, MissingAlertResponse>
 {
     private readonly IMissingAlertRepository _missingAlertRepository;
-    private readonly IPetRepository _petRepository;
     private readonly IUserRepository _userRepository;
     private readonly IValueProvider _valueProvider;
+    private readonly ILocationUtils _locationUtils;
+    private readonly IBreedRepository _breedRepository;
+    private readonly ISpeciesRepository _speciesRepository;
+    private readonly IColorRepository _colorRepository;
+    private readonly ISender _mediator;
     private readonly ILogger<CreateMissingAlertCommandHandler> _logger;
 
     public CreateMissingAlertCommandHandler(
@@ -37,10 +49,19 @@ public class CreateMissingAlertCommandHandler : IRequestHandler<CreateMissingAle
         IPetRepository petRepository,
         IUserRepository userRepository,
         IValueProvider valueProvider,
-        ILogger<CreateMissingAlertCommandHandler> logger)
+        ILogger<CreateMissingAlertCommandHandler> logger,
+        ILocationUtils locationUtils,
+        IBreedRepository breedRepository,
+        ISpeciesRepository speciesRepository,
+        IColorRepository colorRepository,
+        ISender mediator)
     {
+        _locationUtils = locationUtils;
+        _breedRepository = breedRepository;
+        _speciesRepository = speciesRepository;
+        _colorRepository = colorRepository;
+        _mediator = mediator;
         _missingAlertRepository = Guard.Against.Null(missingAlertRepository);
-        _petRepository = Guard.Against.Null(petRepository);
         _userRepository = Guard.Against.Null(userRepository);
         _valueProvider = Guard.Against.Null(valueProvider);
         _logger = Guard.Against.Null(logger);
@@ -49,54 +70,31 @@ public class CreateMissingAlertCommandHandler : IRequestHandler<CreateMissingAle
     public async Task<MissingAlertResponse> Handle(CreateMissingAlertCommand request,
         CancellationToken cancellationToken)
     {
-        Pet missingPet = await ValidateAndAssignPetAsync(request.PetId);
+        var alertOwner = await ValidateAndAssignUserAsync(request.UserId);
 
-        CheckUserPermissionToCreate(missingPet.Owner.Id, request.UserId);
+        Pet petToBeCreated = await GeneratePetToBeCreatedAsync(request.Pet, alertOwner);
 
-        User petOwner = await ValidateAndAssignUserAsync(request.UserId);
-
-        Point location = CoordinatesCalculator.CreatePointBasedOnCoordinates(
-            request.LastSeenLocationLatitude,
-            request.LastSeenLocationLongitude);
+        AlertLocalization localizationData = await _locationUtils.GetAlertStateAndCity(request.State, request.City);
+        Point location = await _locationUtils.GetAlertLocation(localizationData, request.Neighborhood);
 
         MissingAlert missingAlertToCreate = new()
         {
             Id = _valueProvider.NewGuid(),
             RegistrationDate = _valueProvider.UtcNow(),
+            State = localizationData.State,
+            City = localizationData.City,
+            Neighborhood = request.Neighborhood,
             Location = location,
             Description = request.Description,
             RecoveryDate = null,
-            Pet = missingPet,
-            User = petOwner
+            Pet = petToBeCreated,
+            User = alertOwner 
         };
 
         _missingAlertRepository.Add(missingAlertToCreate);
         await _missingAlertRepository.CommitAsync();
 
         return missingAlertToCreate.ToMissingAlertResponse();
-    }
-
-    private async Task<Pet> ValidateAndAssignPetAsync(Guid petId)
-    {
-        Pet? pet = await _petRepository.GetPetByIdAsync(petId);
-        if (pet is null)
-        {
-            _logger.LogInformation("Pet {PetId} não existe", petId);
-            throw new NotFoundException("Animal com o id especificado não existe.");
-        }
-
-        return pet;
-    }
-
-    private void CheckUserPermissionToCreate(Guid userId, Guid requestUserId)
-    {
-        if (userId != requestUserId)
-        {
-            _logger.LogInformation(
-                "Usuário {UserId} não possui permissão para criar alerta para usuário {RequestUserId}",
-                userId, requestUserId);
-            throw new ForbiddenException("Não é possível criar alertas para outros usuários.");
-        }
     }
 
     private async Task<User> ValidateAndAssignUserAsync(Guid userId)
@@ -109,5 +107,84 @@ public class CreateMissingAlertCommandHandler : IRequestHandler<CreateMissingAle
         }
 
         return user;
+    }
+
+    private async Task<Pet> GeneratePetToBeCreatedAsync(CreatePetRequest request, User user,
+        CancellationToken cancellationToken = default)
+    {
+        Breed breed = await ValidateAndAssignBreedAsync(request.BreedId);
+        Species species = await ValidateAndAssignSpeciesAsync(request.SpeciesId);
+        List<Color> colors = await ValidateAndAssignColorsAsync(request.ColorIds);
+
+        Guid petId = _valueProvider.NewGuid();
+
+        if (request.Images.Count >= 10)
+        {
+            _logger.LogInformation("Não é possível adicionar {ImageCount} imagens", request.Images.Count);
+            throw new BadRequestException("Não é possível adicionar 10 ou mais imagens");
+        }
+
+        Pet petToBeCreated = new()
+        {
+            Id = petId,
+            Name = request.Name,
+            Gender = request.Gender,
+            Size = request.Size,
+            Age = request.Age,
+            IsVaccinated = request.IsVaccinated,
+            IsCastrated = request.IsCastrated,
+            IsNegativeToFivFelv = request.IsNegativeToFivFelv,
+            IsNegativeToLeishmaniasis = request.IsNegativeToLeishmaniasis,
+            Owner = user,
+            UserId = user.Id,
+            Breed = breed,
+            BreedId = breed.Id,
+            Species = species,
+            SpeciesId = species.Id,
+            Colors = colors,
+            Images = []
+        };
+
+        UploadPetImagesCommand uploadImagesCommand = new(petToBeCreated, request.Images);
+        List<PetImage> images = await _mediator.Send(uploadImagesCommand, cancellationToken);
+        petToBeCreated.Images = images;
+
+        return petToBeCreated;
+    }
+
+    private async Task<Breed> ValidateAndAssignBreedAsync(int breedId)
+    {
+        Breed? breed = await _breedRepository.GetBreedByIdAsync(breedId);
+        if (breed is null)
+        {
+            _logger.LogInformation("Raça {BreedId} não existe", breedId);
+            throw new NotFoundException("Raça especificada não existe.");
+        }
+
+        return breed;
+    }
+
+    private async Task<Species> ValidateAndAssignSpeciesAsync(int speciesId)
+    {
+        Species? species = await _speciesRepository.GetSpeciesByIdAsync(speciesId);
+        if (species is null)
+        {
+            _logger.LogInformation("Espécie {SpeciesId} não existe", speciesId);
+            throw new NotFoundException("Espécie especificada não existe.");
+        }
+
+        return species;
+    }
+
+    private async Task<List<Color>> ValidateAndAssignColorsAsync(List<int> colorIds)
+    {
+        List<Color> colors = await _colorRepository.GetMultipleColorsByIdsAsync(colorIds);
+        if (colors.Count != colorIds.Count || colors.Count == 0)
+        {
+            _logger.LogInformation("Alguma das cores {@ColorIds} não existe", colorIds);
+            throw new NotFoundException("Alguma das cores especificadas não existe.");
+        }
+
+        return colors;
     }
 }

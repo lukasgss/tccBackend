@@ -11,9 +11,9 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlerts.ReportAdoptionAlert;
 
-public record ReportAdoptionAlertCommand(Guid AlertId, string Reason, Guid? UserId) : IRequest<Unit>;
+public sealed record ReportAdoptionAlertCommand(Guid AlertId, string Reason, Guid? UserId) : IRequest<Unit>;
 
-public class ReportAdoptionAlertCommandHandler : IRequestHandler<ReportAdoptionAlertCommand, Unit>
+public sealed class ReportAdoptionAlertCommandHandler : IRequestHandler<ReportAdoptionAlertCommand, Unit>
 {
     private readonly IAdoptionAlertRepository _adoptionAlertRepository;
     private readonly IValueProvider _valueProvider;

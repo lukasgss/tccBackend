@@ -14,6 +14,10 @@ public class MissingAlert
 	[Required]
 	public required Point Location { get; set; }
 
+	public City City { get; set; } = null!;
+	public State State { get; set; } = null!;
+	public string Neighborhood { get; set; } = null!;
+
 	[MaxLength(500)]
 	public string? Description { get; set; }
 

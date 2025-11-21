@@ -48,6 +48,7 @@ public class GetAdoptionAlertByIdQueryHandler
     {
         var adoptionAlert = await _dbContext.AdoptionAlerts
                                 .AsNoTracking()
+                                .AsSplitQuery()
                                 .Include(alert => alert.Pet)
                                 .Include(alert => alert.Pet.Images)
                                 .Include(alert => alert.Pet.Colors)

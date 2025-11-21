@@ -43,12 +43,14 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, I
     public DbSet<State> States { get; set; } = null!;
     public DbSet<AdoptionReport> AdoptionReports { get; set; } = null!;
     public DbSet<AdoptionAlertNotification> AdoptionAlertNotifications { get; set; }
+    public DbSet<MissingAnimalReport> MissingReports { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder
             .Ignore<List<IDomainEvent>>()
             .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
         base.OnModelCreating(builder);
 
         builder.HasPostgresExtension("unaccent");

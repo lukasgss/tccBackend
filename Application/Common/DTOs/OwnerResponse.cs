@@ -1,6 +1,6 @@
 namespace Application.Common.DTOs;
 
-public record OwnerResponse(
+public sealed record OwnerResponse(
     string FullName,
     string Email,
     string Image,

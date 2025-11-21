@@ -1,6 +1,9 @@
-using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
+using Application.Common.Extensions.Mapping.Alerts;
+using Application.Common.GeoLocation;
+using Application.Common.Interfaces.Entities.Location;
 using Application.Common.Interfaces.Persistence;
+using Application.Queries.Users.Common;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +12,10 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.MissingAlerts.GetById;
 
-public record GetMissingAlertByIdQuery(Guid AlertId) : IRequest<MissingAlertResponse>;
+public record GetMissingAlertByIdQuery(Guid AlertId) : IRequest<MissingAlertResponseWithGeoLocation>;
 
-public class GetMissingAlertByIdQueryHandler : IRequestHandler<GetMissingAlertByIdQuery, MissingAlertResponse>
+public sealed class GetMissingAlertByIdQueryHandler
+    : IRequestHandler<GetMissingAlertByIdQuery, MissingAlertResponseWithGeoLocation>
 {
     private readonly IAppDbContext _dbContext;
     private readonly ILogger<GetMissingAlertByIdQueryHandler> _logger;
@@ -22,34 +26,46 @@ public class GetMissingAlertByIdQueryHandler : IRequestHandler<GetMissingAlertBy
         _dbContext = Guard.Against.Null(dbContext);
     }
 
-    public async Task<MissingAlertResponse> Handle(GetMissingAlertByIdQuery request,
+    public async Task<MissingAlertResponseWithGeoLocation> Handle(GetMissingAlertByIdQuery request,
         CancellationToken cancellationToken)
     {
-        MissingAlertResponse? missingAlert = await _dbContext.MissingAlerts
+        var missingAlert = await _dbContext.MissingAlerts
+            .AsNoTracking()
+            .AsSplitQuery()
             .Include(alert => alert.Pet)
             .ThenInclude(pet => pet.Species)
             .Include(alert => alert.Pet)
             .ThenInclude(pet => pet.Breed)
             .Include(alert => alert.Pet)
             .ThenInclude(pet => pet.Images)
-            .Select(alert => new MissingAlertResponse(
-                    alert.Id,
-                    alert.RegistrationDate,
-                    alert.Location.Y,
-                    alert.Location.X,
-                    alert.Description,
-                    alert.RecoveryDate,
-                    alert.Pet.ToPetResponseNoOwner(),
-                    alert.User.ToOwnerResponse()
-                )
-            )
-            .SingleOrDefaultAsync(alert => alert.Id == request.AlertId, cancellationToken);
+            .Where(alert => alert.Id == request.AlertId)
+            .Select(alert => new MissingAlertByIdQueryResponse(
+                alert.Id,
+                alert.RegistrationDate,
+                alert.Description,
+                alert.RecoveryDate,
+                alert.Location.Y,
+                alert.Location.X,
+                alert.City,
+                alert.State,
+                alert.Neighborhood,
+                alert.Pet.ToPetResponseNoOwner(),
+                new AlertUserDataResponse(alert.User.Id, alert.User.Image, alert.User.FullName, alert.User.PhoneNumber!,
+                    alert.User.ReceivesOnlyWhatsAppMessages)
+            ))
+            .FirstOrDefaultAsync(cancellationToken);
         if (missingAlert is null)
         {
             _logger.LogInformation("Alerta {MissingAlertId} não existe", request.AlertId);
             throw new NotFoundException("Alerta com o id especificado não existe.");
         }
 
-        return missingAlert;
+        AlertGeoLocation formattedLocation = new(
+            City: new LocationResponse(missingAlert.City.Id, missingAlert.City.Name),
+            Neighborhood: missingAlert.Neighborhood,
+            State: new LocationResponse(missingAlert.State.Id, missingAlert.State.Name)
+        );
+
+        return missingAlert.ToMissingAlertResponseWithGeoLocation(formattedLocation);
     }
 }

@@ -41,7 +41,7 @@ public class MissingAlertController : ControllerBase
     }
 
     [HttpGet("{alertId:guid}", Name = "GetMissingAlertById")]
-    public async Task<MissingAlertResponse> GetMissingAlertById(Guid alertId)
+    public async Task<MissingAlertResponseWithGeoLocation> GetMissingAlertById(Guid alertId)
     {
         GetMissingAlertByIdQuery query = new(alertId);
         return await _mediator.Send(query);
@@ -50,14 +50,15 @@ public class MissingAlertController : ControllerBase
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<MissingAlertResponse>> Create(
-        CreateMissingAlertRequest request)
+        [FromForm] CreateMissingAlertRequest request)
     {
         Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
         CreateMissingAlertCommand command = new(
-            request.LastSeenLocationLatitude,
-            request.LastSeenLocationLongitude,
+            request.State,
+            request.City,
+            request.Neighborhood,
             request.Description,
-            request.PetId,
+            request.Pet,
             userId);
 
         MissingAlertResponse createdMissingAlert = await _mediator.Send(command);

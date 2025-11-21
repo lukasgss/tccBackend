@@ -8,6 +8,7 @@ using Application.Common.Interfaces.Entities.Paginated;
 using Application.Common.Interfaces.Persistence;
 using Application.Common.Pagination;
 using Ardalis.GuardClauses;
+using Domain.Entities.Alerts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
@@ -17,7 +18,7 @@ namespace Application.Queries.MissingAlerts.ListMissingAlerts;
 public record ListMissingAlertsQuery(MissingAlertFilters Filters, int Page, int PageSize)
     : IRequest<PaginatedEntity<MissingAlertResponse>>;
 
-public class ListMissingAlertsQueryHandler
+public sealed class ListMissingAlertsQueryHandler
     : IRequestHandler<ListMissingAlertsQuery, PaginatedEntity<MissingAlertResponse>>
 {
     private readonly IAppDbContext _dbContext;
@@ -36,24 +37,13 @@ public class ListMissingAlertsQueryHandler
         }
 
         var query = _dbContext.MissingAlerts
+            .AsSplitQuery()
             .Include(alert => alert.Pet)
             .ThenInclude(pet => pet.Species)
             .Include(alert => alert.Pet)
             .ThenInclude(pet => pet.Breed)
             .Include(alert => alert.Pet)
             .ThenInclude(pet => pet.Images)
-            .Select(alert => new MissingAlertQueryResponse(
-                    alert.Id,
-                    alert.RegistrationDate,
-                    alert.Location.Y,
-                    alert.Location.X,
-                    alert.Description,
-                    alert.RecoveryDate,
-                    alert.Pet.ToPetResponseNoOwner(),
-                    alert.User.ToOwnerResponse(),
-                    alert.Location
-                )
-            )
             // filters records based if it should show only missing alerts
             // (RecoveryDate != null), show only non recovered alerts
             // (RecoveryDate == null) or both, if both filters.Missing
@@ -63,13 +53,27 @@ public class ListMissingAlertsQueryHandler
 
         query = ApplyFilters(query, request.Filters);
 
+        var projectedQuery = query
+            .Select(alert => new MissingAlertQueryResponse(
+                    alert.Id,
+                    alert.RegistrationDate,
+                    alert.State,
+                    alert.City,
+                    alert.Neighborhood,
+                    alert.Description,
+                    alert.RecoveryDate,
+                    alert.Pet.ToPetResponseNoOwner(),
+                    alert.User.ToOwnerResponse()
+                )
+            );
+
         var filteredAlerts =
-            await PagedList<MissingAlertQueryResponse>.ToPagedListAsync(query, request.Page, request.PageSize);
+            await PagedList<MissingAlertQueryResponse>.ToPagedListAsync(projectedQuery, request.Page, request.PageSize);
 
         return filteredAlerts.ToMissingAlertResponsePagedList();
     }
 
-    private static IQueryable<MissingAlertQueryResponse> ApplyFilters(IQueryable<MissingAlertQueryResponse> query,
+    private static IQueryable<MissingAlert> ApplyFilters(IQueryable<MissingAlert> query,
         MissingAlertFilters filters)
     {
         if (filters.HasGeoFilters())
@@ -88,7 +92,7 @@ public class ListMissingAlertsQueryHandler
 
         if (filters.GenderIds is not null)
         {
-            query = query.Where(alert => filters.GenderIds.Contains(alert.Pet.Gender.Id));
+            query = query.Where(alert => filters.GenderIds.Contains(alert.Pet.Gender));
         }
 
         if (filters.SpeciesId is not null)
