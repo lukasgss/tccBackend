@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.UserMessages;
 using Application.Common.Interfaces.Providers;
@@ -10,9 +11,10 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.UserMessages.DeleteMessage;
 
-public record DeleteMessageComand(long MessageId, Guid UserId) : IRequest<Unit>;
+[ExcludeFromCodeCoverage]
+public sealed record DeleteMessageCommand(long MessageId, Guid UserId) : IRequest<Unit>;
 
-public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageComand, Unit>
+public sealed class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand, Unit>
 {
     private const int MaximumTimeToDeleteMessageInMinutes = 5;
 
@@ -33,7 +35,7 @@ public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageComand, 
         _realTimeChatClient = Guard.Against.Null(realTimeChatClient);
     }
 
-    public async Task<Unit> Handle(DeleteMessageComand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteMessageCommand request, CancellationToken cancellationToken)
     {
         UserMessage? dbUserMessage = await _userMessageRepository.GetByIdAsync(request.MessageId, request.UserId);
         if (dbUserMessage is null || dbUserMessage.Sender.Id != request.UserId)

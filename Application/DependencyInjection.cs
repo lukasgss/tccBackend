@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Application.Commands.Alerts.Common;
 using Application.Common.Behaviors;
@@ -25,6 +26,7 @@ using MediatR;
 
 namespace Application;
 
+[ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)

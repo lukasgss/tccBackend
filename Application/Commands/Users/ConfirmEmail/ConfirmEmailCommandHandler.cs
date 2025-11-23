@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Converters;
 using Application.Common.Interfaces.Entities.Users;
@@ -8,9 +9,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users.ConfirmEmail;
 
-public record ConfirmEmailCommand(string HashedUserId, string Token) : IRequest;
+[ExcludeFromCodeCoverage]
+public sealed record ConfirmEmailCommand(string HashedUserId, string Token) : IRequest<Unit>;
 
-public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
+public sealed class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, Unit>
 {
     private readonly IIdConverterService _idConverterService;
     private readonly IUserRepository _userRepository;
@@ -21,7 +23,7 @@ public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
         _idConverterService = Guard.Against.Null(idConverterService);
     }
 
-    public async Task Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
     {
         Guid decodedUserId = _idConverterService.DecodeShortIdToGuid(request.HashedUserId);
 
@@ -36,5 +38,7 @@ public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
         {
             throw new BadRequestException("Não foi possível ativar o email com os dados informados.");
         }
+
+        return Unit.Value;
     }
 }

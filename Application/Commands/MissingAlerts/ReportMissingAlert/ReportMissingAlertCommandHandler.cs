@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.AdoptionReports;
 using Application.Common.Interfaces.Entities.Alerts.MissingAlerts;
 using Application.Common.Interfaces.Entities.Users;
@@ -12,6 +13,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.MissingAlerts.ReportMissingAlert;
 
+[ExcludeFromCodeCoverage]
 public sealed record ReportMissingAlertCommand(Guid AlertId, string Reason, Guid? UserId) : IRequest<Unit>;
 
 public sealed class ReportMissingAlertCommandHandler : IRequestHandler<ReportMissingAlertCommand, Unit>

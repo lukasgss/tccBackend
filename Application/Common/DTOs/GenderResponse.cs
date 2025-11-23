@@ -3,7 +3,8 @@ using Domain.Enums;
 
 namespace Application.Common.DTOs;
 
-public class GenderResponse
+[ExcludeFromCodeCoverage]
+public sealed class GenderResponse
 {
     [SetsRequiredMembers]
     public GenderResponse(Gender id, string name)

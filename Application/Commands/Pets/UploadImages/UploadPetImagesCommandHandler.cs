@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.General.Files;
 using Ardalis.GuardClauses;
 using Domain.Entities;
@@ -7,9 +8,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Commands.Pets.UploadImages;
 
-public record UploadPetImagesCommand(Pet Pet, List<IFormFile> Images) : IRequest<List<PetImage>>;
+[ExcludeFromCodeCoverage]
+public sealed record UploadPetImagesCommand(Pet Pet, List<IFormFile> Images) : IRequest<List<PetImage>>;
 
-public class UploadPetImagesCommandHandler : IRequestHandler<UploadPetImagesCommand, List<PetImage>>
+public sealed class UploadPetImagesCommandHandler : IRequestHandler<UploadPetImagesCommand, List<PetImage>>
 {
     private readonly IPetImageSubmissionService _petImageSubmissionService;
 

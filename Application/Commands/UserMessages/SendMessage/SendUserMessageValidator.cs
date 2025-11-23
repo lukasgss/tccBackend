@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.UserMessages.SendMessage;
 
-public class SendUserMessageValidator : AbstractValidator<SendUserMessageCommand>
+[ExcludeFromCodeCoverage]
+public sealed class SendUserMessageValidator : AbstractValidator<SendUserMessageCommand>
 {
     public SendUserMessageValidator()
     {

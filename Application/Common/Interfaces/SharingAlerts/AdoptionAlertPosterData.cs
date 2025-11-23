@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Queries.Colors.GetAll;
 
 namespace Application.Common.Interfaces.SharingAlerts;
 
-public record AdoptionAlertPosterData(
+[ExcludeFromCodeCoverage]
+public sealed record AdoptionAlertPosterData(
     string PetName,
     string Image,
     SpeciesResponse Species,

@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Validations.Errors;
 
 namespace Application.Common.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class ValidationException : Exception
 {
     public IEnumerable<ValidationError> Errors { get; }

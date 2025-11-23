@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts.DTOs;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
@@ -11,6 +12,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.AdoptionAlerts.GetUserSavedAlerts;
 
+[ExcludeFromCodeCoverage]
 public record GetUserSavedAlertsQuery(Guid UserId) : IRequest<SavedAlertsResponse>;
 
 public sealed class GetUserSavedAlertsQueryHandler : IRequestHandler<GetUserSavedAlertsQuery, SavedAlertsResponse>

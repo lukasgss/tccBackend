@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.UserMessages.EditMessage;
 
-public class EditMessageValidator : AbstractValidator<EditMessageCommand>
+[ExcludeFromCodeCoverage]
+public sealed class EditMessageValidator : AbstractValidator<EditMessageCommand>
 {
     public EditMessageValidator()
     {

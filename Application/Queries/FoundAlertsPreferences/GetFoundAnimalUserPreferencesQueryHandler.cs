@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Persistence;
@@ -9,6 +10,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.FoundAlertsPreferences;
 
+[ExcludeFromCodeCoverage]
 public record GetFoundAnimalUserPreferencesQuery(Guid UserId) : IRequest<UserPreferencesResponse>;
 
 public class GetFoundAnimalUserPreferencesQueryHandler

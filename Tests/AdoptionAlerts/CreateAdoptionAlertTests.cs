@@ -16,16 +16,14 @@ using Domain.Entities;
 using Domain.Entities.Alerts;
 using Domain.Enums;
 using Domain.ValueObjects;
-using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
-using NSubstitute;
 using Color = Domain.Entities.Color;
 using Size = Domain.Enums.Size;
 
-namespace Tests;
+namespace Tests.AdoptionAlerts;
 
 public sealed class CreateAdoptionAlertCommandHandlerTests
 {
@@ -82,8 +80,8 @@ public sealed class CreateAdoptionAlertCommandHandlerTests
 		Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
 		// Assert
-		await act.Should().ThrowAsync<NotFoundException>()
-			.WithMessage("Usuário com o id especificado não existe.");
+		var exception = await act.ShouldThrowAsync<NotFoundException>();
+		exception.Message.ShouldBe("Usuário com o id especificado não existe.");
 	}
 
 	[Fact]
@@ -101,8 +99,8 @@ public sealed class CreateAdoptionAlertCommandHandlerTests
 		Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
 		// Assert
-		await act.Should().ThrowAsync<NotFoundException>()
-			.WithMessage("Raça especificada não existe.");
+		var exception = await act.ShouldThrowAsync<NotFoundException>();
+		exception.Message.ShouldBe("Raça especificada não existe.");
 	}
 
 	[Fact]
@@ -122,8 +120,8 @@ public sealed class CreateAdoptionAlertCommandHandlerTests
 		Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
 		// Assert
-		await act.Should().ThrowAsync<NotFoundException>()
-			.WithMessage("Espécie especificada não existe.");
+		var exception = await act.ShouldThrowAsync<NotFoundException>();
+		exception.Message.ShouldBe("Espécie especificada não existe.");
 	}
 
 	[Fact]
@@ -145,8 +143,8 @@ public sealed class CreateAdoptionAlertCommandHandlerTests
 		Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
 		// Assert
-		await act.Should().ThrowAsync<NotFoundException>()
-			.WithMessage("Alguma das cores especificadas não existe.");
+		var exception = await act.ShouldThrowAsync<NotFoundException>();
+		exception.Message.ShouldBe("Alguma das cores especificadas não existe.");
 	}
 
 	[Fact]
@@ -188,8 +186,8 @@ public sealed class CreateAdoptionAlertCommandHandlerTests
 		Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
 		// Assert
-		await act.Should().ThrowAsync<NotFoundException>()
-			.WithMessage("Alguma das cores especificadas não existe.");
+		var exception = await act.ShouldThrowAsync<NotFoundException>();
+		exception.Message.ShouldBe("Alguma das cores especificadas não existe.");
 	}
 
 	[Fact]
@@ -235,8 +233,8 @@ public sealed class CreateAdoptionAlertCommandHandlerTests
 		Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
 		// Assert
-		await act.Should().ThrowAsync<BadRequestException>()
-			.WithMessage("Não é possível adicionar 10 ou mais imagens");
+		var exception = await act.ShouldThrowAsync<BadRequestException>();
+		exception.Message.ShouldBe("Não é possível adicionar 10 ou mais imagens");
 	}
 
 	[Fact]

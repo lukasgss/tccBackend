@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.Users.Login;
 
-public class LoginValidator : AbstractValidator<LoginCommand>
+[ExcludeFromCodeCoverage]
+public sealed class LoginValidator : AbstractValidator<LoginCommand>
 {
     public LoginValidator()
     {

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.Users;
 using Ardalis.GuardClauses;
@@ -6,14 +7,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users.RedefinePassword;
 
-public record RedefinePasswordCommand(
+[ExcludeFromCodeCoverage]
+public sealed record RedefinePasswordCommand(
     string Email,
     string ResetCode,
     string NewPassword,
     string ConfirmNewPassword)
     : IRequest<Unit>;
 
-public class RedefinePasswordCommandHandler : IRequestHandler<RedefinePasswordCommand, Unit>
+public sealed class RedefinePasswordCommandHandler : IRequestHandler<RedefinePasswordCommand, Unit>
 {
     private readonly IUserRepository _userRepository;
 

@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.Authorization;
 
+[ExcludeFromCodeCoverage]
 public class ExternalAuthPayload
 {
 	public required string UserId { get; init; }

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.MissingAlerts.Edit;
 
-public class EditMissingAlertValidator : AbstractValidator<EditMissingAlertCommand>
+[ExcludeFromCodeCoverage]
+public sealed class EditMissingAlertValidator : AbstractValidator<EditMissingAlertCommand>
 {
     public EditMissingAlertValidator()
     {

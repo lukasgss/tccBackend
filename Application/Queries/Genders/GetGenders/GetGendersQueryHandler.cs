@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Cache;
 using Application.Common.Interfaces.FrontendDropdownData;
 using Ardalis.GuardClauses;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Queries.Genders.GetGenders;
 
+[ExcludeFromCodeCoverage]
 public record GetGendersQuery : IRequest<IList<DropdownDataResponse<string>>>;
 
 public class GetGendersQueryHandler : IRequestHandler<GetGendersQuery, IList<DropdownDataResponse<string>>>

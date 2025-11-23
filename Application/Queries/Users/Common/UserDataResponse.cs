@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Queries.Users.Common;
 
-public record UserDataResponse(
+[ExcludeFromCodeCoverage]
+public sealed record UserDataResponse(
     Guid Id,
     string Image,
     string FullName,

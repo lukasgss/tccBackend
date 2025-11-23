@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Events.AdoptionAlerts.CreatedAdoptionAlert;
 
-public record UserThatMatchPreferences(Guid UserId);
+[ExcludeFromCodeCoverage]
+public sealed record UserThatMatchPreferences(Guid UserId);

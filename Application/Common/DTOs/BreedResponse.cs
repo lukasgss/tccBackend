@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.DTOs;
 
-public record BreedResponse(int Id, string Name);
+[ExcludeFromCodeCoverage]
+public sealed record BreedResponse(int Id, string Name);

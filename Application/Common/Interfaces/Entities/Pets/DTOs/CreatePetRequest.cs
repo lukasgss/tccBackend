@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Common.Interfaces.Entities.Pets.DTOs;
 
-public record CreatePetRequest(
+[ExcludeFromCodeCoverage]
+public sealed record CreatePetRequest(
     string Name,
     Gender Gender,
     Size Size,

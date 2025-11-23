@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.ExternalServices;
 using Application.Common.Interfaces.ExternalServices.AWS;
@@ -10,9 +11,10 @@ using Microsoft.Extensions.Options;
 
 namespace Application.Commands.Users.Images.Upload;
 
-public record UploadUserImageCommand(IFormFile? UserImage, string? PreviousImageUrl) : IRequest<string>;
+[ExcludeFromCodeCoverage]
+public sealed record UploadUserImageCommand(IFormFile? UserImage, string? PreviousImageUrl) : IRequest<string>;
 
-public class UploadUserImageCommandHandler : IRequestHandler<UploadUserImageCommand, string>
+public sealed class UploadUserImageCommandHandler : IRequestHandler<UploadUserImageCommand, string>
 {
     private readonly IImageProcessingService _imageProcessingService;
     private readonly IFileUploadClient _fileUploadClient;

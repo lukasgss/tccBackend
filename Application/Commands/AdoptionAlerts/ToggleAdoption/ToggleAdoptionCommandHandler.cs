@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Extensions.Mapping.Alerts;
@@ -11,18 +12,19 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlerts.ToggleAdoption;
 
-public record ToggleAdoptionCommand(Guid AlertId, Guid UserId) : IRequest<AdoptionAlertResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record ToggleAdoptionCommand(Guid AlertId, Guid UserId) : IRequest<AdoptionAlertResponse>;
 
-public class ToggleAdoptionCommandHandler : IRequestHandler<ToggleAdoptionCommand, AdoptionAlertResponse>
+public sealed class ToggleAdoptionAlertCommandHandler : IRequestHandler<ToggleAdoptionCommand, AdoptionAlertResponse>
 {
     private readonly IAdoptionAlertRepository _adoptionAlertRepository;
     private readonly IValueProvider _valueProvider;
-    private readonly ILogger<ToggleAdoptionCommandHandler> _logger;
+    private readonly ILogger<ToggleAdoptionAlertCommandHandler> _logger;
 
-    public ToggleAdoptionCommandHandler(
+    public ToggleAdoptionAlertCommandHandler(
         IAdoptionAlertRepository adoptionAlertRepository,
         IValueProvider valueProvider,
-        ILogger<ToggleAdoptionCommandHandler> logger)
+        ILogger<ToggleAdoptionAlertCommandHandler> logger)
     {
         _valueProvider = Guard.Against.Null(valueProvider);
         _logger = Guard.Against.Null(logger);

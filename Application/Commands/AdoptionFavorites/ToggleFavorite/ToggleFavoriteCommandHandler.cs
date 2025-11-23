@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping.Alerts;
 using Application.Common.Interfaces.Entities.AdoptionFavoriteAlerts;
@@ -13,9 +14,10 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionFavorites.ToggleFavorite;
 
-public record ToggleFavoriteCommand(Guid UserId, Guid AlertId) : IRequest<AdoptionFavoriteResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record ToggleFavoriteCommand(Guid UserId, Guid AlertId) : IRequest<AdoptionFavoriteResponse>;
 
-public class ToggleFavoriteCommandHandler : IRequestHandler<ToggleFavoriteCommand, AdoptionFavoriteResponse>
+public sealed class ToggleFavoriteCommandHandler : IRequestHandler<ToggleFavoriteCommand, AdoptionFavoriteResponse>
 {
     private readonly IAdoptionAlertRepository _adoptionAlertRepository;
     private readonly IAdoptionFavoritesRepository _adoptionFavoritesRepository;

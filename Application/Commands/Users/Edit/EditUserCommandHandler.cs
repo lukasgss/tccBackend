@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Commands.Users.Images.Upload;
 using Application.Common.Exceptions;
 using Application.Common.Extensions.Mapping;
@@ -13,7 +14,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.Users.Edit;
 
-public record EditUserCommand(
+[ExcludeFromCodeCoverage]
+public sealed record EditUserCommand(
     Guid LoggedInUserId,
     Guid UserId,
     string FullName,
@@ -24,7 +26,7 @@ public record EditUserCommand(
     IFormFile? DefaultAdoptionForm
 ) : IRequest<UserDataResponse>;
 
-public class EditUserCommandHandler : IRequestHandler<EditUserCommand, UserDataResponse>
+public sealed class EditUserCommandHandler : IRequestHandler<EditUserCommand, UserDataResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly ISender _mediator;

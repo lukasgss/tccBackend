@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Extensions.Mapping;
@@ -13,9 +14,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users.ExternalLogin;
 
-public record ExternalLoginCommand(string Provider, string IdToken) : IRequest<UserResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record ExternalLoginCommand(string Provider, string IdToken) : IRequest<UserResponse>;
 
-public class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand, UserResponse>
+[ExcludeFromCodeCoverage]
+public sealed class ExternalLoginCommandHandler : IRequestHandler<ExternalLoginCommand, UserResponse>
 {
     private const string GoogleProvider = "GOOGLE";
     private const string FacebookProvider = "FACEBOOK";

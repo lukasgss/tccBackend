@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Calculators;
 using Application.Common.Converters;
 using Application.Common.Exceptions;
@@ -14,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.AdoptionAlerts.ListAlerts;
 
+[ExcludeFromCodeCoverage]
 public record ListAdoptionAlertsQuery(
     AdoptionAlertFilters Filters,
     Guid? UserId,

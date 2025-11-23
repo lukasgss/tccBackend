@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class NotFoundException : Exception
 {
 	public NotFoundException()

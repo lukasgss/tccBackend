@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Commands.Pets.UploadImages;
 using Application.Common.Calculators;
 using Application.Common.DTOs;
@@ -27,7 +28,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlerts.Update;
 
-public record UpdateAdoptionAlertCommand(
+[ExcludeFromCodeCoverage]
+public sealed record UpdateAdoptionAlertCommand(
     Guid Id,
     string Neighborhood,
     int State,
@@ -42,7 +44,8 @@ public record UpdateAdoptionAlertCommand(
     bool ShouldUseDefaultAdoptionForm
 ) : IRequest<AdoptionAlertResponse>;
 
-public class UpdateAdoptionAlertCommandHandler : IRequestHandler<UpdateAdoptionAlertCommand, AdoptionAlertResponse>
+public sealed class UpdateAdoptionAlertCommandHandler
+    : IRequestHandler<UpdateAdoptionAlertCommand, AdoptionAlertResponse>
 {
     private readonly ISender _mediator;
     private readonly IAdoptionAlertRepository _adoptionAlertRepository;
@@ -282,7 +285,7 @@ public class UpdateAdoptionAlertCommandHandler : IRequestHandler<UpdateAdoptionA
     private static List<string> FormatAdoptionRestrictions(List<string> restrictions)
     {
         return restrictions.Select(restriction => restriction.Trim()
-                .CapitalizeFirstLetter()!)
+                .CapitalizeFirstLetter())
             .ToList();
     }
 }

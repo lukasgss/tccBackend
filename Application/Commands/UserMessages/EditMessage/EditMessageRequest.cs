@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Commands.UserMessages.EditMessage;
 
-public record EditMessageRequest(string Content);
+[ExcludeFromCodeCoverage]
+public sealed record EditMessageRequest(string Content);

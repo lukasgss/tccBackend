@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.Authentication;
 
+[ExcludeFromCodeCoverage]
 public class JwtConfig
 {
 	public const string SectionName = "JwtSettings";

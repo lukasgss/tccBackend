@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.AdoptionAlertNotifications;
 using Ardalis.GuardClauses;
 using MediatR;
 
 namespace Application.Commands.AdoptionAlertNotifications.ReadAllNotifications;
 
+[ExcludeFromCodeCoverage]
 public record ReadAllAdoptionNotificationsCommand(Guid UserId) : IRequest<Unit>;
 
 public class ReadAllAdoptionNotificationsCommandHandler : IRequestHandler<ReadAllAdoptionNotificationsCommand, Unit>

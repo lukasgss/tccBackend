@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.AdoptionReports;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts;
 using Application.Common.Interfaces.Entities.Users;
@@ -11,6 +12,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlerts.ReportAdoptionAlert;
 
+[ExcludeFromCodeCoverage]
 public sealed record ReportAdoptionAlertCommand(Guid AlertId, string Reason, Guid? UserId) : IRequest<Unit>;
 
 public sealed class ReportAdoptionAlertCommandHandler : IRequestHandler<ReportAdoptionAlertCommand, Unit>

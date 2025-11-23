@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.ExternalServices.GeoLocation;
 using Application.Queries.GeoLocation.Common;
 using Ardalis.GuardClauses;
@@ -5,6 +6,7 @@ using MediatR;
 
 namespace Application.Queries.GeoLocation.GetCoordinatesFromPostalCode;
 
+[ExcludeFromCodeCoverage]
 public record GetCoordinatesFromPostalCodeQuery(string PostalCode) : IRequest<GeoLocationResponse>;
 
 public class GetCoordinatesFromPostalCodeQueryHandler

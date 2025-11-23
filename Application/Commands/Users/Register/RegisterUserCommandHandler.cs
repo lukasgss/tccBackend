@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Commands.Users.Images.Upload;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
@@ -12,7 +13,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users.Register;
 
-public record RegisterUserCommand(
+[ExcludeFromCodeCoverage]
+public sealed record RegisterUserCommand(
     string FullName,
     string PhoneNumber,
     string Email,
@@ -21,7 +23,7 @@ public record RegisterUserCommand(
     string ConfirmPassword
 ) : IRequest<UserResponse>;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserResponse>
+public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, UserResponse>
 {
     private readonly IValueProvider _valueProvider;
     private readonly IUserRepository _userRepository;

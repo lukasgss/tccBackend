@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.Users.RedefinePassword;
 
-public class RedefinePasswordValidator : AbstractValidator<RedefinePasswordCommand>
+[ExcludeFromCodeCoverage]
+public sealed class RedefinePasswordValidator : AbstractValidator<RedefinePasswordCommand>
 {
     public RedefinePasswordValidator()
     {

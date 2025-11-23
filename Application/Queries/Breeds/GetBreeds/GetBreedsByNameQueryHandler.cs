@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.FrontendDropdownData;
 using Application.Common.Interfaces.Persistence;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.Breeds.GetBreeds;
 
+[ExcludeFromCodeCoverage]
 public record GetBreedsByNameQuery(string Name) : IRequest<IList<DropdownDataResponse<string>>>;
 
 public class GetBreedsByNameQueryHandler : IRequestHandler<GetBreedsByNameQuery, IList<DropdownDataResponse<string>>>

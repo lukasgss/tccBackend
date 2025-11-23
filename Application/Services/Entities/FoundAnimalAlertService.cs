@@ -25,7 +25,7 @@ using NetTopologySuite.Geometries;
 
 namespace Application.Services.Entities;
 
-public class FoundAnimalAlertService : IFoundAnimalAlertService
+public sealed class FoundAnimalAlertService : IFoundAnimalAlertService
 {
     private readonly IFoundAnimalAlertRepository _foundAnimalAlertRepository;
     private readonly ISpeciesRepository _speciesRepository;

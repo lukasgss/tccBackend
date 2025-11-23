@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Calculators;
 using Application.Common.Converters;
 using Application.Common.Extensions.Mapping;
@@ -9,11 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.AdoptionAlerts.GetSuggesteds;
 
+[ExcludeFromCodeCoverage]
 public record GetSuggestedsBasedOnLocationQuery(
     double? Latitude = 0,
     double? Longitude = 0)
     : IRequest<IList<SuggestedAlertsQueryResponse>>;
 
+[ExcludeFromCodeCoverage]
 public record SuggestedAlertsQueryResponse(
     Guid Id,
     List<string> AdoptionRestrictions,

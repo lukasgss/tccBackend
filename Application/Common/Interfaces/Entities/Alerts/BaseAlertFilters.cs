@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Enums;
 
 namespace Application.Common.Interfaces.Entities.Alerts;
 
+[ExcludeFromCodeCoverage]
 public class BaseAlertFilters
 {
 	public double? Latitude { get; init; }

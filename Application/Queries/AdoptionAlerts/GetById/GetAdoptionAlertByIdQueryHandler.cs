@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Extensions.Mapping.Alerts;
 using Application.Common.GeoLocation;
@@ -16,9 +17,12 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.AdoptionAlerts.GetById;
 
-public record GetAdoptionAlertByIdQuery(Guid AlertId, Guid? UserId) : IRequest<AdoptionAlertResponseWithGeoLocation>;
+[ExcludeFromCodeCoverage]
+public sealed record GetAdoptionAlertByIdQuery(Guid AlertId, Guid? UserId)
+    : IRequest<AdoptionAlertResponseWithGeoLocation>;
 
-public record AdoptionAlertByIdQueryResponse(
+[ExcludeFromCodeCoverage]
+public sealed record AdoptionAlertByIdQueryResponse(
     Guid Id,
     List<string> AdoptionRestrictions,
     Point? Location,
@@ -33,7 +37,7 @@ public record AdoptionAlertByIdQueryResponse(
     FileAttachment? AdoptionForm
 );
 
-public class GetAdoptionAlertByIdQueryHandler
+public sealed class GetAdoptionAlertByIdQueryHandler
     : IRequestHandler<GetAdoptionAlertByIdQuery, AdoptionAlertResponseWithGeoLocation>
 {
     private readonly IAppDbContext _dbContext;

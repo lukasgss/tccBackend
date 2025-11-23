@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Queries.Colors.GetAll;
 
 namespace Application.Common.Interfaces.Entities.Pets.DTOs;
 
-public record PetResponseNoOwner(
+[ExcludeFromCodeCoverage]
+public sealed record PetResponseNoOwner(
     Guid Id,
     string Name,
     GenderResponse Gender,

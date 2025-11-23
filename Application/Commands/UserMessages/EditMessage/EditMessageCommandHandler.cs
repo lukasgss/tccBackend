@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Extensions.Mapping;
@@ -12,13 +13,14 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.UserMessages.EditMessage;
 
-public record EditMessageCommand(
+[ExcludeFromCodeCoverage]
+public sealed record EditMessageCommand(
     long Id,
     string Content,
     Guid UserId
 ) : IRequest<UserMessageResponse>;
 
-public class EditMessageCommandHandler : IRequestHandler<EditMessageCommand, UserMessageResponse>
+public sealed class EditMessageCommandHandler : IRequestHandler<EditMessageCommand, UserMessageResponse>
 {
     private const int MaximumTimeToEditMessageInMinutes = 7;
 

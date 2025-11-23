@@ -3,7 +3,8 @@ using Domain.Enums;
 
 namespace Application.Common.DTOs;
 
-public class AgeResponse
+[ExcludeFromCodeCoverage]
+public sealed class AgeResponse
 {
     [SetsRequiredMembers]
     public AgeResponse(Age id, string name)

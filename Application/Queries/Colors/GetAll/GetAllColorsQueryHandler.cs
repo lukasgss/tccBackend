@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Cache;
 using Application.Common.Interfaces.Persistence;
 using Ardalis.GuardClauses;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Queries.Colors.GetAll;
 
+[ExcludeFromCodeCoverage]
 public record GetAllColorsQuery : IRequest<IList<ColorResponse>>;
 
 public class GetAllColorsQueryHandler : IRequestHandler<GetAllColorsQuery, IList<ColorResponse>>

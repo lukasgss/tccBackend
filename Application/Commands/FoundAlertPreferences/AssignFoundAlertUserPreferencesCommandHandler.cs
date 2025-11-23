@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Calculators;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping.Alerts.UserPreferences;
@@ -12,7 +13,8 @@ using NetTopologySuite.Geometries;
 
 namespace Application.Commands.FoundAlertPreferences;
 
-public record AssignFoundAlertUserPreferencesCommand(
+[ExcludeFromCodeCoverage]
+public sealed record AssignFoundAlertUserPreferencesCommand(
     Guid UserId,
     double? FoundLocationLatitude,
     double? FoundLocationLongitude,

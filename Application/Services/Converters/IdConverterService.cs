@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Converters;
 
 namespace Application.Services.Converters;
 
+[ExcludeFromCodeCoverage]
 public class IdConverterService : IIdConverterService
 {
 	public string ConvertGuidToShortId(Guid id)

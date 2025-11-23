@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
@@ -10,7 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.AdoptionFavorites.GetAll;
 
-public record GetAllAdoptionFavoritesQuery(Guid UserId, int Page, int PageSize)
+[ExcludeFromCodeCoverage]
+public sealed record GetAllAdoptionFavoritesQuery(Guid UserId, int Page, int PageSize)
     : IRequest<PaginatedEntity<AdoptionFavoriteResponse>>;
 
 public class

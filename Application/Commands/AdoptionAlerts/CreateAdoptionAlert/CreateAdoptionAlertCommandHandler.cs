@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Commands.Alerts.Common;
 using Application.Commands.Pets.UploadImages;
 using Application.Common.DTOs;
@@ -28,7 +29,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlerts.CreateAdoptionAlert;
 
-public record CreateAdoptionAlertCommand(
+[ExcludeFromCodeCoverage]
+public sealed record CreateAdoptionAlertCommand(
     Guid UserId,
     List<string> AdoptionRestrictions,
     string Neighborhood,
@@ -139,7 +141,7 @@ public class CreateAdoptionAlertCommandHandler : IRequestHandler<CreateAdoptionA
         return adoptionForm;
     }
 
-    private void RaiseAlertCreatedEvent(AdoptionAlert adoptionAlert)
+    private static void RaiseAlertCreatedEvent(AdoptionAlert adoptionAlert)
     {
         var colorIds = adoptionAlert.Pet.Colors.Select(color => color.Id);
         AdoptionAlertCreated adoptionAlertCreatedEvent = new(

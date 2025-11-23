@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.Users.Edit;
 
-public class EditUserValidator : AbstractValidator<EditUserCommand>
+[ExcludeFromCodeCoverage]
+public sealed class EditUserValidator : AbstractValidator<EditUserCommand>
 {
     public EditUserValidator()
     {

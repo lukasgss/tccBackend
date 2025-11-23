@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.Alerts.MissingAlerts;
 using Application.Common.Interfaces.Providers;
@@ -9,7 +10,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.MissingAlerts.ToggleFound;
 
-public record ToggleFoundMissingAlertCommand(Guid AlertId, Guid UserId) : IRequest<Unit>;
+[ExcludeFromCodeCoverage]
+public sealed record ToggleFoundMissingAlertCommand(Guid AlertId, Guid UserId) : IRequest<Unit>;
 
 public class ToggleFoundMissingAlertCommandHandler : IRequestHandler<ToggleFoundMissingAlertCommand, Unit>
 {

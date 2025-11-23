@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.Users.ChangePassword;
 
-public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
+[ExcludeFromCodeCoverage]
+public sealed class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
 {
     public ChangePasswordValidator()
     {

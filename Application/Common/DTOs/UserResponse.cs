@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.DTOs;
 
-public record UserResponse(
+[ExcludeFromCodeCoverage]
+public sealed record UserResponse(
     Guid Id,
     string Email,
     string FullName,

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping.Alerts;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts;
@@ -13,6 +14,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.FoundAlertFavorites.ToggleFavorite;
 
+[ExcludeFromCodeCoverage]
 public sealed record ToggleFoundAlertFavoriteCommand(Guid UserId, Guid AlertId) : IRequest<FoundAnimalFavoriteResponse>;
 
 public sealed class ToggleFoundAlertFavoriteCommandHandler : IRequestHandler<ToggleFoundAlertFavoriteCommand,

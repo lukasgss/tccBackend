@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Commands.AdoptionAlerts.CreateAdoptionAlert;
 
-public record CreateAdoptionAlertRequest(
+[ExcludeFromCodeCoverage]
+public sealed record CreateAdoptionAlertRequest(
     string Neighborhood,
     int State,
     int City,

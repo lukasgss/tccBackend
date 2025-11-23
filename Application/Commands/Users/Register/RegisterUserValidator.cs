@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.Users.Register;
 
-public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
+[ExcludeFromCodeCoverage]
+public sealed class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserValidator()
     {

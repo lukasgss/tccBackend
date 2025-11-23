@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Persistence;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.AdoptionUserPreferences.GetUserPreferences;
 
+[ExcludeFromCodeCoverage]
 public record GetAdoptionPreferencesQuery(Guid UserId) : IRequest<UserPreferencesResponse?>;
 
 public class GetAdoptionPreferencesQueryHandler

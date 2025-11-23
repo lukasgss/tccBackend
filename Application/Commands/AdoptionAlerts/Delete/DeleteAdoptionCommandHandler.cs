@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts;
 using Ardalis.GuardClauses;
@@ -8,9 +9,10 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlerts.Delete;
 
-public record DeleteAdoptionCommand(Guid AlertId, Guid UserId) : IRequest;
+[ExcludeFromCodeCoverage]
+public sealed record DeleteAdoptionCommand(Guid AlertId, Guid UserId) : IRequest;
 
-public class DeleteAdoptionCommandHandler : IRequestHandler<DeleteAdoptionCommand>
+public sealed class DeleteAdoptionCommandHandler : IRequestHandler<DeleteAdoptionCommand>
 {
     private readonly IAdoptionAlertRepository _adoptionAlertRepository;
     private readonly ILogger<DeleteAdoptionCommandHandler> _logger;

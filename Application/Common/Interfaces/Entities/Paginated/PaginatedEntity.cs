@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.Entities.Paginated;
 
+[ExcludeFromCodeCoverage]
 public class PaginatedEntity<T> where T : class
 {
     public List<T> Data { get; init; } = default!;

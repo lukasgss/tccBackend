@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Application.Queries.Users.Common;
 
 namespace Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
 
+[ExcludeFromCodeCoverage]
 public record AdoptionAlertProfileListing(
     Guid Id,
     List<string> AdoptionRestrictions,

@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.RealTimeCommunication;
 
-public class DeletedMessage
+[ExcludeFromCodeCoverage]
+public sealed class DeletedMessage
 {
 	public required long Id { get; init; }
 	public required Guid SenderId { get; init; }

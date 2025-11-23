@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.AdoptionAlerts.ReportAdoptionAlert;
 
-public class ReportAdoptionAlertValidator : AbstractValidator<ReportAdoptionAlertCommand>
+[ExcludeFromCodeCoverage]
+public sealed class ReportAdoptionAlertValidator : AbstractValidator<ReportAdoptionAlertCommand>
 {
     public ReportAdoptionAlertValidator()
     {

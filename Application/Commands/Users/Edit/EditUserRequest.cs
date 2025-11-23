@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.Commands.Users.Edit;
 
-public class EditUserRequest
+[ExcludeFromCodeCoverage]
+public sealed class EditUserRequest
 {
     public required string FullName { get; set; } = null!;
     public required string PhoneNumber { get; set; } = null!;

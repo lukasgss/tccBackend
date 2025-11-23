@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Validations.PetValidations;
 using FluentValidation;
 
 namespace Application.Commands.AdoptionAlerts.CreateAdoptionAlert;
 
-public class CreateAdoptionAlertValidator : AbstractValidator<CreateAdoptionAlertCommand>
+[ExcludeFromCodeCoverage]
+public sealed class CreateAdoptionAlertValidator : AbstractValidator<CreateAdoptionAlertCommand>
 {
     public CreateAdoptionAlertValidator()
     {

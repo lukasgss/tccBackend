@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Common;
 using Domain.Enums;
 
 namespace Domain.Events;
 
-public record AdoptionAlertCreated(
+[ExcludeFromCodeCoverage]
+public sealed record AdoptionAlertCreated(
     Guid Id,
     Gender Gender,
     Age Age,

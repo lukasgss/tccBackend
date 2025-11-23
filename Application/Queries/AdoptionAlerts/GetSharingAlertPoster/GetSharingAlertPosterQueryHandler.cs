@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Persistence;
 using Application.Common.Interfaces.SharingAlerts;
@@ -8,9 +9,11 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.AdoptionAlerts.GetSharingAlertPoster;
 
-public record GetSharingAlertPosterQuery(Guid AlertId) : IRequest<SharingAlertPosterResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record GetSharingAlertPosterQuery(Guid AlertId) : IRequest<SharingAlertPosterResponse>;
 
-public class GetSharingAlertPosterQueryHandler : IRequestHandler<GetSharingAlertPosterQuery, SharingAlertPosterResponse>
+public sealed class GetSharingAlertPosterQueryHandler
+    : IRequestHandler<GetSharingAlertPosterQuery, SharingAlertPosterResponse>
 {
     private readonly IAppDbContext _dbContext;
     private readonly ISharingPosterGenerator _sharingPosterGenerator;

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.AnimalSpecies;
 using Application.Common.Interfaces.Entities.Breeds;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.General.UserPreferences;
 
+[ExcludeFromCodeCoverage]
 public class UserPreferencesValidations : IUserPreferencesValidations
 {
     private readonly IUserRepository _userRepository;

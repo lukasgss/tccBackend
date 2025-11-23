@@ -3,7 +3,8 @@ using Domain.Enums;
 
 namespace Application.Common.DTOs;
 
-public class SizeResponse
+[ExcludeFromCodeCoverage]
+public sealed class SizeResponse
 {
     [SetsRequiredMembers]
     public SizeResponse(Size id, string name)

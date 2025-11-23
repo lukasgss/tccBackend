@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Persistence;
 using Ardalis.GuardClauses;
 using MediatR;
@@ -5,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.AdoptionAlertNotifications.GetNotifications;
 
-public record GetAdoptionAlertNotificationsQuery(Guid UserId) : IRequest<List<AdoptionAlertNotificationResponse>>;
+[ExcludeFromCodeCoverage]
+public sealed record GetAdoptionAlertNotificationsQuery(Guid UserId)
+    : IRequest<List<AdoptionAlertNotificationResponse>>;
 
 public class GetAdoptionAlertNotificationsQueryHandler
     : IRequestHandler<GetAdoptionAlertNotificationsQuery, List<AdoptionAlertNotificationResponse>>

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Queries.Users.Common;
 
 namespace Application.Common.DTOs;
 
-public record UserMessageResponse(
+[ExcludeFromCodeCoverage]
+public sealed record UserMessageResponse(
     long Id,
     string Content,
     DateTime TimeStampUtc,

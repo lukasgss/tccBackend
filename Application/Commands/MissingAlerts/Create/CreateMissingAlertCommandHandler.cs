@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Commands.Alerts.Common;
 using Application.Commands.Pets.UploadImages;
 using Application.Common.DTOs;
@@ -23,6 +24,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.MissingAlerts.Create;
 
+[ExcludeFromCodeCoverage]
 public sealed record CreateMissingAlertCommand(
     int State,
     int City,
@@ -72,7 +74,7 @@ public sealed class CreateMissingAlertCommandHandler : IRequestHandler<CreateMis
     {
         var alertOwner = await ValidateAndAssignUserAsync(request.UserId);
 
-        Pet petToBeCreated = await GeneratePetToBeCreatedAsync(request.Pet, alertOwner);
+        Pet petToBeCreated = await GeneratePetToBeCreatedAsync(request.Pet, alertOwner, cancellationToken);
 
         AlertLocalization localizationData = await _locationUtils.GetAlertStateAndCity(request.State, request.City);
         Point location = await _locationUtils.GetAlertLocation(localizationData, request.Neighborhood);

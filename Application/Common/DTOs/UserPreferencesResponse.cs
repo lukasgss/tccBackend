@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Queries.Colors.GetAll;
 using Application.Queries.Users.Common;
 
 namespace Application.Common.DTOs;
 
-public record UserPreferencesResponse(
+[ExcludeFromCodeCoverage]
+public sealed record UserPreferencesResponse(
     Guid Id,
     double? FoundLocationLatitude,
     double? FoundLocationLongitude,

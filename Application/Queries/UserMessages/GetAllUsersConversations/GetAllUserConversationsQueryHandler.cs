@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Persistence;
 using Ardalis.GuardClauses;
 using MediatR;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.UserMessages.GetAllUsersConversations;
 
+[ExcludeFromCodeCoverage]
 public record GetAllUserConversationsQuery(Guid UserId) : IRequest<IList<UserConversation>>;
 
 public class

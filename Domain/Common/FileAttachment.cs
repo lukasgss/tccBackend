@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Domain.Common;
 
-public class FileAttachment
+[ExcludeFromCodeCoverage]
+public sealed class FileAttachment
 {
     [Obsolete]
     private FileAttachment()

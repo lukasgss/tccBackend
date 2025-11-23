@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.Alerts.MissingAlerts;
 using Ardalis.GuardClauses;
@@ -8,7 +9,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.MissingAlerts.Delete;
 
-public record DeleteMissingAlertCommand(Guid AlertId, Guid UserId) : IRequest<Unit>;
+[ExcludeFromCodeCoverage]
+public sealed record DeleteMissingAlertCommand(Guid AlertId, Guid UserId) : IRequest<Unit>;
 
 public class DeleteMissingAlertCommandHandler : IRequestHandler<DeleteMissingAlertCommand, Unit>
 {

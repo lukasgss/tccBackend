@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.Messaging;
 
-public class MessagingSettings
+[ExcludeFromCodeCoverage]
+public sealed class MessagingSettings
 {
     public string From { get; init; } = null!;
     public string Username { get; init; } = null!;

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Commands.UserMessages.MarkAllMessagesAsRead;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries.UserMessages.GetMessagesFromUser;
 
+[ExcludeFromCodeCoverage]
 public record GetMessagesFromUserQuery(
     Guid CurrentUserId,
     Guid OtherUserId,

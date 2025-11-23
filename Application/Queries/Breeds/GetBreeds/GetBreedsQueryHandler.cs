@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Cache;
 using Application.Common.Interfaces.FrontendDropdownData;
 using Application.Common.Interfaces.Persistence;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Queries.Breeds.GetBreeds;
 
+[ExcludeFromCodeCoverage]
 public record GetBreedsQuery(int SpeciesId) : IRequest<IList<DropdownDataResponse<string>>>;
 
 public class GetBreedsQueryHandler : IRequestHandler<GetBreedsQuery, IList<DropdownDataResponse<string>>>

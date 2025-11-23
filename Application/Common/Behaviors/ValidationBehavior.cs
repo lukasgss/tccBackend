@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Validations.Errors;
 using FluentValidation;
 using MediatR;
@@ -5,7 +6,8 @@ using ValidationException = Application.Common.Exceptions.ValidationException;
 
 namespace Application.Common.Behaviors;
 
-public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
+[ExcludeFromCodeCoverage]
+public sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse> where TRequest
     : IRequest<TResponse>
 {
@@ -14,7 +16,7 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
     {
         if (!validators.Any())
         {
-            return await next();
+            return await next(cancellationToken);
         }
 
         var context = new ValidationContext<TRequest>(request);

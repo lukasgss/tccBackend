@@ -75,7 +75,7 @@ public class UserMessageController : ControllerBase
     {
         Guid userId = _userAuthorizationService.GetUserIdFromJwtToken(User);
 
-        DeleteMessageComand command = new(messageId, userId);
+        DeleteMessageCommand command = new(messageId, userId);
         await _mediator.Send(command);
         return NoContent();
     }

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Enums;
 
 namespace Application.Common.DTOs;
 
-public class UserPreferencesRequest
+[ExcludeFromCodeCoverage]
+public sealed class UserPreferencesRequest
 {
     public double? FoundLocationLatitude { get; init; }
     public double? FoundLocationLongitude { get; init; }

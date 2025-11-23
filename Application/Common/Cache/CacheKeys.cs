@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Cache;
 
+[ExcludeFromCodeCoverage]
 public static class CacheKeys
 {
     public const string Colors = "Colors";

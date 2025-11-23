@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
@@ -9,7 +10,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.Users.GetProfile;
 
-public record GetProfileQuery(Guid UserId) : IRequest<UserProfileResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record GetProfileQuery(Guid UserId) : IRequest<UserProfileResponse>;
 
 public class GetProfileQueryHandler : IRequestHandler<GetProfileQuery, UserProfileResponse>
 {

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.AdoptionAlertNotifications;
 using Ardalis.GuardClauses;
@@ -7,6 +8,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.AdoptionAlertNotifications.ReadNotification;
 
+[ExcludeFromCodeCoverage]
 public record ReadAdoptionAlertNotificationCommand(long NotificationId, Guid UserId)
     : IRequest<Unit>;
 

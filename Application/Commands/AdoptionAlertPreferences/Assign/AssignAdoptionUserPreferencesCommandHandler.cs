@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Calculators;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping.Alerts.UserPreferences;
@@ -12,6 +13,7 @@ using NetTopologySuite.Geometries;
 
 namespace Application.Commands.AdoptionAlertPreferences.Assign;
 
+[ExcludeFromCodeCoverage]
 public record AssignAdoptionUserPreferencesCommand(
     Guid UserId,
     double? FoundLocationLatitude,

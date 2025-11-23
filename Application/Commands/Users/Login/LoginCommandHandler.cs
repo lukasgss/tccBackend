@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Extensions.Mapping;
@@ -10,9 +11,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users.Login;
 
-public record LoginCommand(string Email, string Password) : IRequest<UserResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record LoginCommand(string Email, string Password) : IRequest<UserResponse>;
 
-public class LoginCommandHandler : IRequestHandler<LoginCommand, UserResponse>
+public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, UserResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly ITokenGenerator _tokenGenerator;

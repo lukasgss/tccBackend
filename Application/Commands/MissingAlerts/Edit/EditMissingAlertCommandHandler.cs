@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Calculators;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
@@ -15,7 +16,8 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.MissingAlerts.Edit;
 
-public record EditMissingAlertCommand(
+[ExcludeFromCodeCoverage]
+public sealed record EditMissingAlertCommand(
     Guid Id,
     double LastSeenLocationLatitude,
     double LastSeenLocationLongitude,
@@ -24,7 +26,7 @@ public record EditMissingAlertCommand(
     Guid UserId
 ) : IRequest<MissingAlertResponse>;
 
-public class EditMissingAlertCommandHandler : IRequestHandler<EditMissingAlertCommand, MissingAlertResponse>
+public sealed class EditMissingAlertCommandHandler : IRequestHandler<EditMissingAlertCommand, MissingAlertResponse>
 {
     private readonly IMissingAlertRepository _missingAlertRepository;
     private readonly IPetRepository _petRepository;

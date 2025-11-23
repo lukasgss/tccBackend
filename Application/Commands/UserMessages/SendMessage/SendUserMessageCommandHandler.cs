@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Entities.UserMessages;
@@ -11,12 +12,13 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.UserMessages.SendMessage;
 
-public record SendUserMessageCommand(
+[ExcludeFromCodeCoverage]
+public sealed record SendUserMessageCommand(
     Guid SenderId,
     Guid ReceiverId,
     string Content) : IRequest<UserMessageResponse>;
 
-public class SendUserMessageCommandHandler : IRequestHandler<SendUserMessageCommand, UserMessageResponse>
+public sealed class SendUserMessageCommandHandler : IRequestHandler<SendUserMessageCommand, UserMessageResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserMessageRepository _userMessageRepository;

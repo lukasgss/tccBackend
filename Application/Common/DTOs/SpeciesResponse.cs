@@ -1,3 +1,6 @@
-﻿namespace Application.Common.DTOs;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public record SpeciesResponse(int Id, string Name);
+namespace Application.Common.DTOs;
+
+[ExcludeFromCodeCoverage]
+public sealed record SpeciesResponse(int Id, string Name);

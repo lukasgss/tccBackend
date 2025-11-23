@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.ExternalServices.AWS;
 using Ardalis.GuardClauses;
 using MediatR;
 
 namespace Application.Queries.Users.Images.ValidateImage;
 
-public record ValidateUserImageQuery(string Image) : IRequest<string>;
+[ExcludeFromCodeCoverage]
+public sealed record ValidateUserImageQuery(string Image) : IRequest<string>;
 
 public class ValidateUserImageQueryHandler : IRequestHandler<ValidateUserImageQuery, string>
 {

@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Queries.AdoptionAlertNotifications.GetNotifications;
 
-public record AdoptionAlertNotificationResponse(
+[ExcludeFromCodeCoverage]
+public sealed record AdoptionAlertNotificationResponse(
     long Id,
     Guid AlertId,
     string AdoptionImageUrl,

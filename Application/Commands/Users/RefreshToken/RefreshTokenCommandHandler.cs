@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Authentication;
@@ -10,9 +11,10 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Commands.Users.RefreshToken;
 
-public record RefreshTokenCommand(Guid UserId) : IRequest<TokensResponse>;
+[ExcludeFromCodeCoverage]
+public sealed record RefreshTokenCommand(Guid UserId) : IRequest<TokensResponse>;
 
-public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, TokensResponse>
+public sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, TokensResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly ITokenGenerator _tokenGenerator;

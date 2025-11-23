@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.ExternalServices.GeoLocation;
 using Application.Queries.GeoLocation.Common;
 using Ardalis.GuardClauses;
@@ -6,6 +7,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.GeoLocation.GetLocationDataFromCoordinates;
 
+[ExcludeFromCodeCoverage]
 public record GetLocationDataFromCoordinatesQuery(
     double? Latitude,
     double? Longitude)

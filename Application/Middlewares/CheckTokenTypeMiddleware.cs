@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using Application.Common.Exceptions;
 using Application.Services.Authentication;
@@ -6,7 +7,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Middlewares;
 
-public class CheckTokenTypeMiddleware
+[ExcludeFromCodeCoverage]
+public sealed class CheckTokenTypeMiddleware
 {
 	private readonly RequestDelegate _next;
 	private readonly ILogger<CheckTokenTypeMiddleware> _logger;

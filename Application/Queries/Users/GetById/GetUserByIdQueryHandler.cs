@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Persistence;
 using Application.Queries.Users.Common;
 using Ardalis.GuardClauses;
@@ -8,6 +9,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.Users.GetById;
 
+[ExcludeFromCodeCoverage]
 public record GetUserByIdQuery(Guid UserId) : IRequest<UserDataResponse>;
 
 public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDataResponse>

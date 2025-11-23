@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.GeoLocation;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Application.Queries.Users.Common;
@@ -5,6 +6,7 @@ using Domain.Common;
 
 namespace Application.Queries.AdoptionFavorites.GetById;
 
+[ExcludeFromCodeCoverage]
 public record AdoptionAlertResponseWithGeoLocation(
     Guid Id,
     List<string> AdoptionRestrictions,

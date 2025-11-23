@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.RealTimeCommunication;
 
-public class SentMessage
+[ExcludeFromCodeCoverage]
+public sealed class SentMessage
 {
 	public required long Id { get; init; }
 	public required Guid SenderId { get; init; }

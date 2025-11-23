@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.Json;
 using Application.Common.Exceptions;
@@ -7,7 +8,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Middlewares;
 
-public class ErrorHandlerMiddleware
+[ExcludeFromCodeCoverage]
+public sealed class ErrorHandlerMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlerMiddleware> _logger;

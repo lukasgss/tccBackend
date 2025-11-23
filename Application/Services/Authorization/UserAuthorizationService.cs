@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Authorization;
 
 namespace Application.Services.Authorization;
 
+[ExcludeFromCodeCoverage]
 public class UserAuthorizationService : IUserAuthorizationService
 {
     public Guid GetUserIdFromJwtToken(ClaimsPrincipal user)

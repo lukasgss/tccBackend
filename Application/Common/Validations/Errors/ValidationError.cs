@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Validations.Errors;
 
-public class ValidationError
+[ExcludeFromCodeCoverage]
+public sealed class ValidationError
 {
     public string Field { get; }
     public string Message { get; }

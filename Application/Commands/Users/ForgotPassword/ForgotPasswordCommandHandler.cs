@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Users;
 using Application.Common.Interfaces.Messaging;
 using Ardalis.GuardClauses;
@@ -5,9 +6,11 @@ using MediatR;
 
 namespace Application.Commands.Users.ForgotPassword;
 
-public record ForgotPasswordCommand(string Email) : IRequest;
+[ExcludeFromCodeCoverage]
+public sealed record ForgotPasswordCommand(string Email) : IRequest;
 
-public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand>
+[ExcludeFromCodeCoverage]
+public sealed class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMessagingService _messagingService;

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Extensions.Mapping.Alerts;
 using Application.Common.GeoLocation;
@@ -12,6 +13,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.MissingAlerts.GetById;
 
+[ExcludeFromCodeCoverage]
 public record GetMissingAlertByIdQuery(Guid AlertId) : IRequest<MissingAlertResponseWithGeoLocation>;
 
 public sealed class GetMissingAlertByIdQueryHandler

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Entities.Users;
 using Ardalis.GuardClauses;
@@ -7,13 +8,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Users.ChangePassword;
 
-public record ChangePasswordCommand(
+[ExcludeFromCodeCoverage]
+public sealed record ChangePasswordCommand(
     string CurrentPassword,
     string NewPassword,
     string ConfirmNewPassword,
     Guid UserId) : IRequest<Unit>;
 
-public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
+public sealed class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
 {
     private readonly IUserRepository _userRepository;
 

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts.DTOs;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
@@ -6,6 +7,7 @@ using Domain.Entities;
 
 namespace Application.Queries.AdoptionAlerts.GetUserCreatedAlerts;
 
+[ExcludeFromCodeCoverage]
 public sealed class CreatedAdoptionListingResponse
 {
 	public Guid Id { get; init; }
@@ -25,6 +27,7 @@ public sealed class CreatedAdoptionListingResponse
 	public bool IsFavorite { get; init; }
 }
 
+[ExcludeFromCodeCoverage]
 public sealed record CreatedAlertsResponse(
 	List<CreatedAdoptionListingResponse> AdoptionAlerts,
 	List<FoundAnimalAlertResponse> FoundAnimalAlerts);

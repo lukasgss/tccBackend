@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using NetTopologySuite.Geometries;
 
 namespace Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
 
+[ExcludeFromCodeCoverage]
 public class AdoptionAlertListing
 {
     public Guid Id { get; init; }

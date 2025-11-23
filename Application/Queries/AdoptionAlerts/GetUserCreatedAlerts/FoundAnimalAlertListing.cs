@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 
 namespace Application.Queries.AdoptionAlerts.GetUserCreatedAlerts;
 
+[ExcludeFromCodeCoverage]
 public sealed class FoundAnimalAlertListing
 {
 	public Guid Id { get; init; }

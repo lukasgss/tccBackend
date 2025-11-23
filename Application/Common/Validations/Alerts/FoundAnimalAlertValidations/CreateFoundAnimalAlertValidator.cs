@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Alerts.FoundAnimalAlerts.DTOs;
 using Domain.Enums;
 using FluentValidation;
 
 namespace Application.Common.Validations.Alerts.FoundAnimalAlertValidations;
 
-public class CreateFoundAnimalAlertValidator : AbstractValidator<CreateFoundAnimalAlertRequest>
+[ExcludeFromCodeCoverage]
+public sealed class CreateFoundAnimalAlertValidator : AbstractValidator<CreateFoundAnimalAlertRequest>
 {
 	public CreateFoundAnimalAlertValidator()
 	{

@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Application.Queries.Users.Common;
 using Domain.Entities;
 
 namespace Application.Queries.AdoptionAlerts.GetUserSavedAlerts;
 
+[ExcludeFromCodeCoverage]
 public sealed class SavedAdoptionListingResponse
 {
 	public Guid Id { get; init; }

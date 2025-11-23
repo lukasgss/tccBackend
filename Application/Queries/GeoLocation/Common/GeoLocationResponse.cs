@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Queries.GeoLocation.Common;
 
-public record GeoLocationResponse(
+[ExcludeFromCodeCoverage]
+public sealed record GeoLocationResponse(
     string Latitude,
     string Longitude,
     string? Address,

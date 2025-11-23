@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Application.Common.Interfaces.Authorization.Facebook;
 
+[ExcludeFromCodeCoverage]
 public class FacebookUserDataResponse
 {
 	[JsonPropertyName("id")]
@@ -17,12 +19,14 @@ public class FacebookUserDataResponse
 	public required PictureData Picture { get; init; }
 }
 
+[ExcludeFromCodeCoverage]
 public class PictureData
 {
 	[JsonPropertyName("data")]
 	public required Picture Data { get; init; }
 }
 
+[ExcludeFromCodeCoverage]
 public class Picture
 {
 	[JsonPropertyName("height")]

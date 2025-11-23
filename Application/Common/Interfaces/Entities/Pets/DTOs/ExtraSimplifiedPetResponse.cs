@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 
 namespace Application.Common.Interfaces.Entities.Pets.DTOs;
 
-public record ExtraSimplifiedPetResponse(
+[ExcludeFromCodeCoverage]
+public sealed record ExtraSimplifiedPetResponse(
     Guid Id,
     string Name,
     AgeResponse Age,

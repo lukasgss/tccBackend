@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Application.Common.Interfaces.RealTimeCommunication;
 
-public class EditedMessage
+[ExcludeFromCodeCoverage]
+public sealed class EditedMessage
 {
 	public required long Id { get; set; }
 	public required string Content { get; init; }

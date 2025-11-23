@@ -1,12 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.UserMessages;
 using Ardalis.GuardClauses;
 using MediatR;
 
 namespace Application.Commands.UserMessages.MarkAllMessagesAsRead;
 
-public record MarkAllMessagesAsReadCommand(Guid SenderId, Guid ReceiverId) : IRequest<Unit>;
+[ExcludeFromCodeCoverage]
+public sealed record MarkAllMessagesAsReadCommand(Guid SenderId, Guid ReceiverId) : IRequest<Unit>;
 
-public class MarkAllMessagesAsReadCommandHandler : IRequestHandler<MarkAllMessagesAsReadCommand, Unit>
+public sealed class MarkAllMessagesAsReadCommandHandler : IRequestHandler<MarkAllMessagesAsReadCommand, Unit>
 {
     private readonly IUserMessageRepository _userMessageRepository;
 

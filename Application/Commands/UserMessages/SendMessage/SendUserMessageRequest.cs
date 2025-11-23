@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Commands.UserMessages.SendMessage;
 
-public class SendUserMessageRequest
+[ExcludeFromCodeCoverage]
+public sealed class SendUserMessageRequest
 {
     [Required(ErrorMessage = "Campo de conteúdo é obrigatório.")]
     public string Content { get; set; } = null!;

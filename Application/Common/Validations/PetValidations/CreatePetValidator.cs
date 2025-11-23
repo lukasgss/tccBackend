@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Domain.Enums;
 using FluentValidation;
 
 namespace Application.Common.Validations.PetValidations;
 
-public class CreatePetValidator : AbstractValidator<CreatePetRequest>
+[ExcludeFromCodeCoverage]
+public sealed class CreatePetValidator : AbstractValidator<CreatePetRequest>
 {
 	public CreatePetValidator()
 	{

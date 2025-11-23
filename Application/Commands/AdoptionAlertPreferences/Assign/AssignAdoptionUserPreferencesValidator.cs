@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Domain.Enums;
 using FluentValidation;
 
 namespace Application.Commands.AdoptionAlertPreferences.Assign;
 
+[ExcludeFromCodeCoverage]
 public class AssignAdoptionUserPreferencesValidator : AbstractValidator<AssignAdoptionUserPreferencesCommand>
 {
     public AssignAdoptionUserPreferencesValidator()

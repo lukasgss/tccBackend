@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
 namespace Application.Commands.MissingAlerts.Create;
 
+[ExcludeFromCodeCoverage]
 public sealed class CreateMissingAlertValidator : AbstractValidator<CreateMissingAlertCommand>
 {
     public CreateMissingAlertValidator()

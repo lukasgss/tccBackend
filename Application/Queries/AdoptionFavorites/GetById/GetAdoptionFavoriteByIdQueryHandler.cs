@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.DTOs;
 using Application.Common.Extensions.Mapping;
 using Application.Common.Interfaces.Entities.Alerts.AdoptionAlerts.DTOs;
@@ -9,6 +10,7 @@ using NotFoundException = Application.Common.Exceptions.NotFoundException;
 
 namespace Application.Queries.AdoptionFavorites.GetById;
 
+[ExcludeFromCodeCoverage]
 public record GetAdoptionFavoriteByIdQuery(Guid FavoriteId, Guid UserId) : IRequest<AdoptionFavoriteResponse>;
 
 public class

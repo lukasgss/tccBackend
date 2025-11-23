@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Interfaces.Entities.Pets.DTOs;
 using Application.Queries.Users.Common;
 using Domain.Common;
 
 namespace Application.Common.DTOs;
 
-public record AdoptionAlertResponse(
+[ExcludeFromCodeCoverage]
+public sealed record AdoptionAlertResponse(
     Guid Id,
     List<string> AdoptionRestrictions,
     double? LocationLatitude,

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Application.Common.Calculators;
 using Application.Common.Converters;
 using Application.Common.DTOs;
@@ -15,6 +16,7 @@ using NetTopologySuite.Geometries;
 
 namespace Application.Queries.MissingAlerts.ListMissingAlerts;
 
+[ExcludeFromCodeCoverage]
 public record ListMissingAlertsQuery(MissingAlertFilters Filters, int Page, int PageSize)
     : IRequest<PaginatedEntity<MissingAlertResponse>>;
 
